@@ -21,8 +21,10 @@ are defined in [workflow_common.md](workflow_common.md).
 2. [workflow_common.md](workflow_common.md) (common rules)
 3. [workflow_method_b.md](workflow_method_b.md) (this file)
 4. [handover_memo_latest.md](handover_memo_latest.md) (current project state)
+<!-- CUSTOMIZE: Add project-specific files to reading order, e.g.:
 5. [code_structure.md](code_structure.md) (current module/data layout)
 6. [notation.md](notation.md) (notation rules)
+-->
 
 ## Execution Modes
 

@@ -22,23 +22,23 @@
 
 ## Prompt 1: Paper Confirmation
 
+<!-- CUSTOMIZE: Replace with your project's reference paper/resource -->
+
 ```markdown
 ## 1. 論文と作業の概要
 
 ### 対象論文
-添付されている **`arXiv-1612.09400v2-tex.txt`** (Bakalov & Sullivan, "Inhomogeneous supersymmetric bilinear forms") が、このセッションの作業の中心です。
+<!-- CUSTOMIZE: Describe your reference paper or resource -->
+添付されている **`<reference-file>`** が、このセッションの作業の中心です。
 
 ### プロジェクトの目的
-この論文で定義されている振動子 Lie 超代数 (oscillator Lie superalgebras) の Python 実装を行い、非同次変形（kappa-deformation）と中心拡大の構造を計算します。
+<!-- CUSTOMIZE: Describe your project's purpose -->
 
 ### あなたのここでの作業
 
-上記論文を確認し、特に **Sec. 4 (Oscillator Lie superalgebras)** の以下の内容を把握してください：
-- 定義 4.1: 振動子 Lie 超代数 osp(1|2n)
-- 式 (osp12): osp(1|2) の基底と構造定数
-- 式 (extbrackets): 非同次拡大ブラケット（kappa-dependent）
+上記の資料を確認し、プロジェクトの主要な定義と構造を把握してください。
 
-確認が完了したら「論文 Sec. 4 を確認しました。次のステップに進んでください」と回答してください。
+確認が完了したら「資料を確認しました。次のステップに進んでください」と回答してください。
 ```
 
 ## Prompt 2: Goal Setting
@@ -50,8 +50,9 @@
 
 現在作成しているファイルは，以下のGitHubレポジトリのものになります：
 
-- owner: `ritsumei-aoi`
-- repo: `oscillator-lie-superalgebras`
+<!-- CUSTOMIZE: Update with your repository information -->
+- owner: `your-github-username`
+- repo: `your-repo-name`
 
 あなたはMCPサーバからここにあるファイルを取得できます．ただし，書き込みやGitの操作などはできません．
 最初に用いるのは以下になります：

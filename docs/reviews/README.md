@@ -61,13 +61,6 @@ review_YYMMDD_NN.md
 
 | ファイル | カテゴリ | 対応コミット | 旧ファイル名 |
 |----------|---------|-------------|-------------|
-| `done/review_260331_01.md` | latex | `5d747c5` | review_latex_01 |
-| `done/review_260401_01.md` | latex | `9227f5d` | review_latex_02 |
-| `done/review_260401_02.md` | latex, workflow | `e01a0d1` | review_latex_03 |
-| `done/review_260401_03.md` | latex | `6c556c5` | review_latex_04 |
-| `done/review_260401_04.md` | docs | `f7bd115` | review_docs_01 |
-| `done/review_260401_05.md` | latex | `80b9ec1` | review_latex_05 |
-| `done/review_260401_06.md` | workflow | `5b74643` | review_workflow_01 |
 
 ## 関連ファイル
 

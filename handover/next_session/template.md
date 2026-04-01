@@ -23,7 +23,7 @@
 - `handover/handover_memo_format.md`
 - `handover/handover_memo_latest.md`
 - `log/README.md`
-- `arXiv-1612.09400v2-tex.txt`（または arXiv URL）
+- <!-- CUSTOMIZE: Add project-specific reference files here -->
 
 ## Build Procedure
 

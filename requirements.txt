@@ -1,0 +1,7 @@
+# Project dependencies
+# Add your project-specific packages below
+#
+# Example:
+# numpy>=1.24
+# sympy>=1.12
+# pytest>=7.0
