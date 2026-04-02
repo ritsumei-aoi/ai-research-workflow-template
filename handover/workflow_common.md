@@ -6,9 +6,9 @@ Method-specific rules are in [workflow_method_a.md](workflow_method_a.md) (inter
 [workflow_method_b.md](workflow_method_b.md) (AI agent with direct execution),
 and [workflow_method_c.md](workflow_method_c.md) (GitHub Agentic Workflow, draft).
 
-Review-driven workflow ([workflow_review.md](workflow_review.md)) operates independently of
-Method A/B/C and takes priority when `review_open.md` or `review_needs_clarification.md`
-exists in `docs/reviews/`.
+Review-driven workflow ([workflow_issue.md](workflow_issue.md)) operates independently of
+Method A/B/C and takes priority when `issue_open.md` or `issue_needs_clarification.md`
+exists in `docs/issues/`.
 
 Method comparison and selection guide: [workflow_methods_comparison.md](workflow_methods_comparison.md).
 

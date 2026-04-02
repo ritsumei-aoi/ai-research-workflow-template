@@ -107,13 +107,13 @@ PR のレビューは以下の観点で実施する：
 
 ## レビュー駆動ワークフローとの統合
 
-[workflow_review.md](workflow_review.md) のレビュー駆動ワークフローは Method C でも適用可能：
+[workflow_issue.md](workflow_issue.md) のレビュー駆動ワークフローは Method C でも適用可能：
 
-- `docs/reviews/review_open.md` の指摘のうち、機械的に対応可能なものは
+- `docs/issues/issue_open.md` の指摘のうち、機械的に対応可能なものは
   Issue 化して Method C で処理できる
 - ただし、レビュー指摘の**解釈**（数学的意図の理解）は人間が行い、
   Issue に具体的な変更指示として記載する必要がある
-- レビュー完了処理（`done/` への移動、`review_history.md` 更新）は
+- レビュー完了処理（`done/` への移動、`issue_history.md` 更新）は
   Method C の PR に含めるか、別途 Method B セッションで実施
 
 ## 制限事項と考慮点

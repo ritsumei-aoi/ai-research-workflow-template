@@ -1,4 +1,4 @@
-# Prompt Pack: Review (Optional)
+# Prompt Pack: Issue (Optional)
 
 任意で使う振り返り・確認プロンプト群です。
 mainへの squash merge が終わった後に用いることを想定しています．

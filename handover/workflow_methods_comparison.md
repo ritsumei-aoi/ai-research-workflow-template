@@ -8,7 +8,7 @@
 - [workflow_method_b.md](workflow_method_b.md)（Method B: AI エージェント型）
 - [workflow_method_c.md](workflow_method_c.md)（Method C: GitHub Agentic Workflow）**[Draft]**
 - [workflow_common.md](workflow_common.md)（全方式共通ルール）
-- [workflow_review.md](workflow_review.md)（レビュー駆動ワークフロー — 全方式共通）
+- [workflow_issue.md](workflow_issue.md)（レビュー駆動ワークフロー — 全方式共通）
 
 ## 1. 方式比較テーブル
 
@@ -120,7 +120,7 @@ Method A（理論検討）→ Method B（計算的検証）→ Method C（コー
 ```
 レビュー指摘 → 方式判定 → 対応
 
-例: docs/reviews/review_open.md に複数の指摘
+例: docs/issues/issue_open.md に複数の指摘
   - 「構造定数の符号を確認せよ」→ Method A/B（数学的検証）
   - 「docstring を追加せよ」→ Method C（機械的タスク）
   - 「テストケースを追加せよ」→ Method B（実装＋検証）

@@ -10,7 +10,7 @@
 実際のプロンプト本文は以下の分割ファイルを参照します。
 - `prompt_pack_start.md`
 - `prompt_pack_finish.md`
-- `prompt_pack_review.md`（任意）
+- `prompt_pack_issue.md`（任意）
 
 ## Required Inputs
 
@@ -30,7 +30,7 @@
 1. `prompt_pack_start.md` から開始プロンプトを取得する。
 2. 実装作業を行う。
 3. `prompt_pack_finish.md` から終了プロンプトを取得する。
-4. 必要な場合のみ `prompt_pack_review.md` を使う。
+4. 必要な場合のみ `prompt_pack_issue.md` を使う。
 5. 次セッションファイルを `handover/next_session/YYYY-MM-DD-N.md` として出力する。
 6. 旧 `handover/next_session/YYYY-MM-DD-N.md` を
 	`_legacy/handover/next_session/` へ移動する。

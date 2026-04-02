@@ -15,7 +15,7 @@
   - セッション開始時に使うプロンプト群。
 - `prompt_pack_finish.md`
   - セッション終了時に使う必須プロンプト群。
-- `prompt_pack_review.md`
+- `prompt_pack_issue.md`
   - 任意の振り返り・リソース確認プロンプト群。
 
 ## 推奨実行順
@@ -23,7 +23,7 @@
 1. `prompt_pack_start.md`
 2. 実装作業
 3. `prompt_pack_finish.md`
-4. 必要な場合のみ `prompt_pack_review.md`
+4. 必要な場合のみ `prompt_pack_issue.md`
 
 ## 運用ルール
 

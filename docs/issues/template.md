@@ -1,25 +1,25 @@
-# レビュースキーマ定義
+# イシュースキーマ定義
 
-> レビューファイルのフォーマット仕様。`review_open.md` の雛形として使用する。
+> イシューファイルのフォーマット仕様。`issue_open.md` の雛形として使用する。
 
 ---
 
 ## 運用フロー
 
 ```
-1. ユーザが template.md をコピーして review_open.md を作成
-2. AI が review_open.md の存在を検出 → 対応開始
-3. 対応完了 → review_YYMMDD_NN.md にリネームして done/ へ移動
-4. 差し戻し → review_needs_clarification.md にリネーム
+1. ユーザが template.md をコピーして issue_open.md を作成
+2. AI が issue_open.md の存在を検出 → 対応開始
+3. 対応完了 → issue_YYMMDD_NN.md にリネームして done/ へ移動
+4. 差し戻し → issue_needs_clarification.md にリネーム
 ```
 
 ### ファイル状態
 
 | ファイル名 | 状態 | 意味 |
 |-----------|------|------|
-| `review_open.md` | 未対応 | AI が対応すべきレビューが存在する |
-| `review_needs_clarification.md` | 差し戻し | ユーザの追加指示待ち（最優先） |
-| `done/review_YYMMDD_NN.md` | 完了 | 対応済みレビュー（アーカイブ） |
+| `issue_open.md` | 未対応 | AI が対応すべきレビューが存在する |
+| `issue_needs_clarification.md` | 差し戻し | ユーザの追加指示待ち（最優先） |
+| `done/issue_YYMMDD_NN.md` | 完了 | 対応済みレビュー（アーカイブ） |
 | なし | アイドル | 対応すべきレビューなし |
 
 ### AI の自動補完ルール
@@ -36,7 +36,7 @@
 ### 完了ファイル命名規則
 
 ```
-review_YYMMDD_NN.md
+issue_YYMMDD_NN.md
 ```
 
 - `YYMMDD`: 作成日（6 桁）
@@ -94,7 +94,7 @@ review_YYMMDD_NN.md
 
 ## テンプレート本体
 
-以下をコピーして `review_open.md` を作成する。
+以下をコピーして `issue_open.md` を作成する。
 
 ```markdown
 Created: today
