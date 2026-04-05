@@ -1,66 +1,72 @@
 # AI Research Workflow Template
 
+A template repository for AI-assisted research workflows.
+
 AI を活用した研究ワークフローのテンプレートリポジトリ。
 
-## 概要
+---
 
-このテンプレートは、AI アシスタント（GitHub Copilot, Gemini CLI 等）を活用した学術研究プロジェクトのワークフロー基盤を提供します。
+## Language / 言語
 
-### 主な機能
+This repository provides documentation in both English and Japanese.
+Choose your language below.
 
-- **イシュー駆動ワークフロー**: `docs/issues/` を起点とした構造化された作業管理
-- **AI 委任境界ポリシー**: AI に委任可能なタスクの明示的定義
-- **セッション引き継ぎシステム**: `handover/` による AI セッション間の文脈保持
-- **3 つのワークフロー方式**: Method A（対話型）、Method B（イシュー駆動エージェント型）、Method C（GitHub Agentic）
+このリポジトリは英語・日本語の両方でドキュメントを提供しています。
+以下から言語を選択してください。
 
-## クイックスタート
+| | English | 日本語 |
+|---|---|---|
+| **Getting Started** | [en/CUSTOMIZE.md](en/CUSTOMIZE.md) | [ja/CUSTOMIZE.md](ja/CUSTOMIZE.md) |
+| **Handover Index** | [en/handover/README.md](en/handover/README.md) | [ja/handover/README.md](ja/handover/README.md) |
+| **Method B (Issue-Driven Agent)** | [en/handover/workflow_method_b.md](en/handover/workflow_method_b.md) | [ja/handover/workflow_method_b.md](ja/handover/workflow_method_b.md) |
+| **Common Rules** | [en/handover/workflow_common.md](en/handover/workflow_common.md) | [ja/handover/workflow_common.md](ja/handover/workflow_common.md) |
+| **Method Comparison** | [en/handover/workflow_methods_comparison.md](en/handover/workflow_methods_comparison.md) | [ja/handover/workflow_methods_comparison.md](ja/handover/workflow_methods_comparison.md) |
 
-1. このテンプレートから新しいリポジトリを作成
-2. `CUSTOMIZE.md` の手順に従ってプロジェクト固有の設定を行う
-3. `handover/ai_trust_policy.md` をプロジェクトに合わせて編集
-4. `handover/handover_memo_latest.md` に初期状態を記入
-5. AI セッションを開始
+---
 
-## ディレクトリ構成
+## Overview
+
+This template provides a workflow foundation for academic research projects
+using AI assistants (GitHub Copilot, Gemini CLI, etc.).
+
+### Key Features
+
+- **Issue-driven workflow**: Structured task management via `docs/issues/`
+- **AI delegation boundary policy**: Explicit definition of tasks delegable to AI
+- **Session handover system**: Context preservation across AI sessions via `handover/`
+- **Three workflow methods**: Method A (interactive), Method B (issue-driven agent), Method C (GitHub Agentic)
+
+## Quick Start
+
+1. Create a new repository from this template
+2. Choose your language: copy contents from `en/` or `ja/` to the project root
+3. Follow [CUSTOMIZE.md](en/CUSTOMIZE.md) for project-specific setup
+4. Edit `handover/ai_trust_policy.md` for your project
+5. Fill in `handover/handover_memo_latest.md` with initial state
+6. Start an AI session
+
+## Directory Structure
 
 ```
-├── .github/copilot-instructions.md   # Copilot 用プロジェクト設定
-├── GEMINI.md                         # Gemini CLI 用プロジェクト設定
-├── CUSTOMIZE.md                      # カスタマイズ手順書
-├── handover/                         # セッション引き継ぎ・ワークフロー定義
-│   ├── README.md                     # 引き継ぎ情報の索引
-│   ├── workflow_common.md            # 全方式共通ルール
-│   ├── workflow_method_a.md          # Method A（対話型）
-│   ├── workflow_method_b.md          # Method B（イシュー駆動エージェント型）
-│   ├── workflow_method_c.md          # Method C（GitHub Agentic）[Draft]
-│   ├── ai_trust_policy.md           # AI 委任境界ポリシー
-│   ├── workflow_methods_comparison.md # 方式比較ガイド
-│   ├── handover_memo_latest.md       # 最新セッション引き継ぎ
-│   ├── handover_memo_archived.md     # 過去セッション履歴
-│   └── handover_memo_format.md       # メモ形式定義
-├── docs/
-│   ├── issues/                       # イシュー管理
-│   ├── theory/                       # 理論資料
-│   └── drafts/                       # 論文草稿（LaTeX）
-├── data/                             # データファイル（JSON 等）
-├── src/                              # ソースコード
-├── tests/                            # テストコード
-├── experiments/                      # 実験スクリプト
-├── examples/                         # サンプルコード
-├── scripts/                          # ユーティリティスクリプト
-└── _legacy/                          # 非推奨ファイルの保管場所
+├── en/                               # English documentation tree
+│   ├── CUSTOMIZE.md                  # Setup guide (English)
+│   ├── handover/                     # Workflow & session management
+│   └── docs/                         # Issues, theory, drafts
+├── ja/                               # Japanese documentation tree
+│   ├── CUSTOMIZE.md                  # セットアップガイド（日本語）
+│   ├── handover/                     # ワークフロー・セッション管理
+│   └── docs/                         # イシュー、理論資料、草稿
+├── .github/copilot-instructions.md   # Copilot project settings
+├── GEMINI.md                         # Gemini CLI project settings
+├── data/                             # Data files (JSON, etc.)
+├── src/                              # Source code
+├── tests/                            # Test code
+├── experiments/                      # Experiment scripts
+├── examples/                         # Sample code
+├── scripts/                          # Utility scripts
+└── _legacy/                          # Deprecated files archive
 ```
 
-## カスタマイズ
-
-`CUSTOMIZE.md` を参照してください。`<!-- CUSTOMIZE -->` マーカーが付いたファイルをプロジェクトに合わせて編集します。
-
-## ワークフロー詳細
-
-- [handover/README.md](handover/README.md) — 全文書の索引と推奨読了順
-- [handover/workflow_common.md](handover/workflow_common.md) — 全方式共通ルール
-- [handover/workflow_methods_comparison.md](handover/workflow_methods_comparison.md) — 方式の比較と選択ガイド
-
-## ライセンス
+## License
 
 <!-- CUSTOMIZE: Add your license information -->

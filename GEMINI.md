@@ -1,13 +1,23 @@
 # Project Context
 
-このプロジェクトの詳細は以下のファイルを参照してください：
+Choose your language tree and reference the corresponding files:
 
-- 共通ワークフロー: handover/workflow_common.md
-- AIエージェント方式 (Method B): handover/workflow_method_b.md
-- 最新セッション: handover/handover_memo_latest.md
+For English: use `en/handover/` paths.
+For Japanese: use `ja/handover/` paths.
+
+Example (English):
+- Common workflow: en/handover/workflow_common.md
+- AI agent workflow (Method B): en/handover/workflow_method_b.md
+- Latest session: en/handover/handover_memo_latest.md
+
+Example (Japanese / 日本語):
+- 共通ワークフロー: ja/handover/workflow_common.md
+- AIエージェント方式 (Method B): ja/handover/workflow_method_b.md
+- 最新セッション: ja/handover/handover_memo_latest.md
+
 <!-- CUSTOMIZE: Add project-specific context files, e.g.:
-- 記法: handover/notation.md
-- コード構造: handover/code_structure.md
+- Notation: handover/notation.md
+- Code structure: handover/code_structure.md
 -->
 
-セッション開始時は上記の順に読み込んでから作業を開始してください。
+Read the handover documents in the chosen language at session start.

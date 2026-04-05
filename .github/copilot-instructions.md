@@ -36,11 +36,12 @@ Short, actionable instructions for Copilot/GitHub AI sessions in this repository
 
 # AI agent rules & integration notes
 
-- Read these files at session start (in this order):
-  1) handover/README.md
-  2) handover/workflow_common.md
-  3) handover/workflow_method_b.md
-  4) handover/handover_memo_latest.md
+- Read these files at session start (in this order).
+  Choose the language tree (`en/` or `ja/`):
+  1) {lang}/handover/README.md
+  2) {lang}/handover/workflow_common.md
+  3) {lang}/handover/workflow_method_b.md
+  4) {lang}/handover/handover_memo_latest.md
   <!-- CUSTOMIZE: Add project-specific files to the reading order, e.g.:
   5) handover/code_structure.md
   6) handover/notation.md
