@@ -67,6 +67,12 @@ using AI assistants (GitHub Copilot, Gemini CLI, etc.).
 └── _legacy/                          # Deprecated files archive
 ```
 
+## References
+
+- H. Aoi, *A collaborative workflow for human-AI research in pure mathematics*, Preprint, 2026.
+  <!-- arXiv link: https://arxiv.org/abs/2604.YYYYY -->
+- Case study repository: [osp-triviality](https://github.com/ritsumei-aoi/osp-triviality)
+
 ## License
 
 <!-- CUSTOMIZE: Add your license information -->
