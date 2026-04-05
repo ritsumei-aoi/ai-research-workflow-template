@@ -16,6 +16,7 @@
 
 | ファイル | 変更内容 |
 |---------|---------|
+| `handover/ai_trust_policy.md` | プロジェクト固有の委任可能/不可タスクを定義 |
 | `.github/copilot-instructions.md` | プロジェクト固有のコマンド、アーキテクチャ、規約を記述 |
 | `GEMINI.md` | プロジェクト固有のコンテキストファイルを追加 |
 | `handover/README.md` | MCP メタ情報（owner/repo）、§2-4 のプロジェクト固有資料リンク |
@@ -27,10 +28,7 @@
 | ファイル | 変更内容 |
 |---------|---------|
 | `handover/workflow_methods_comparison.md` | §3 のタスク別ガイドをプロジェクト固有に |
-| `handover/workflow_method_c.md` | プロジェクト固有の適用場面・制限事項 |
-| `handover/next_session/template.md` | 参照ファイルリスト |
-| `handover/next_session/prompt_pack_start.md` | プロジェクト固有のセッション開始プロンプト |
-| `docs/theory/README.md` | 理論資料のディレクトリ構成 |
+| `docs/issues/template.md` | イシューテンプレートのカテゴリをプロジェクトに合わせる |
 
 ### 初回セッション前
 
@@ -42,39 +40,38 @@
 
 ## 3. カスタマイズ例
 
+### `handover/ai_trust_policy.md` の例（数学研究プロジェクト）
+
+```markdown
+## AI に委任可能なタスク
+- 計算実装: SymPy / NumPy を用いた数値計算・記号計算
+- テストコード生成・実行
+- LaTeX の整形・クロスリファレンス修正
+
+## AI に委任してはならないタスク
+- 定理・補題の正しさの最終判断
+- 証明ステップの論理的妥当性の確認
+- 論文の投稿判断
+```
+
 ### `.github/copilot-instructions.md` の例
 
 ```markdown
 # Quick commands
 
-- Setup (editable install):
-  - pip install -e .
-  - pip install -r requirements.txt
-- Run regression tests:
-  - pytest tests/ -v
-- Validate data:
-  - python experiments/validate_data.py
+- Setup: pip install -e . && pip install -r requirements.txt
+- Run tests: pytest tests/ -v
+- Validate data: python experiments/validate_data.py
 
-# High-level architecture (big picture)
+# High-level architecture
 
 - Data-driven pipeline: objects stored as JSON under data/
 - Core library: src/my_package/
-- Experiment scripts: experiments/
-```
-
-### `handover/README.md` の MCP メタ情報
-
-```markdown
-- owner: `your-github-username`
-- repo: `your-project-name`
-- base_path: `handover/`
-- default_ref: `main`
 ```
 
 ## 4. CUSTOMIZE マーカーの削除
 
 カスタマイズ完了後、`<!-- CUSTOMIZE -->` マーカーは削除しても残しても構いません。
-残しておくと、後から新しい項目を追加する際の目印になります。
 
 ## 5. 不要ファイルの削除
 
