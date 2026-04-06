@@ -17,6 +17,7 @@ Choose your language below.
 | | English | 日本語 |
 |---|---|---|
 | **Getting Started** | [en/CUSTOMIZE.md](en/CUSTOMIZE.md) | [ja/CUSTOMIZE.md](ja/CUSTOMIZE.md) |
+| **Quick Start** | [en/quickstart.md](en/quickstart.md) | [ja/quickstart.md](ja/quickstart.md) |
 | **Handover Index** | [en/handover/README.md](en/handover/README.md) | [ja/handover/README.md](ja/handover/README.md) |
 | **Method B (Issue-Driven Agent)** | [en/handover/workflow_method_b.md](en/handover/workflow_method_b.md) | [ja/handover/workflow_method_b.md](ja/handover/workflow_method_b.md) |
 | **Common Rules** | [en/handover/workflow_common.md](en/handover/workflow_common.md) | [ja/handover/workflow_common.md](ja/handover/workflow_common.md) |
@@ -38,12 +39,22 @@ using AI assistants (GitHub Copilot, Gemini CLI, etc.).
 
 ## Quick Start
 
+> **Detailed guides with examples:** [English](en/quickstart.md) | [日本語](ja/quickstart.md)
+
+| Method | Environment | Summary |
+|--------|-------------|---------|
+| **A** (Interactive) | Browser AI chat (ChatGPT, Claude, etc.) | Attach workflow files → dialog → apply changes locally |
+| **B** (Agent) | AI with file access (Copilot, Gemini CLI) | Write `issue_open.md` → AI handles autonomously |
+| **Z** (Bootstrap) | Any AI | Give the AI this repo URL and let it guide you |
+
+### Minimal Setup
+
 1. Create a new repository from this template
-2. Choose your language: copy contents from `en/` or `ja/` to the project root
+2. Choose your language: work within `en/` or `ja/`
 3. Follow [CUSTOMIZE.md](en/CUSTOMIZE.md) for project-specific setup
 4. Edit `handover/ai_trust_policy.md` for your project
 5. Fill in `handover/handover_memo_latest.md` with initial state
-6. Start an AI session
+6. Start an AI session (see the Quick Start guide for your chosen method)
 
 ## Directory Structure
 
