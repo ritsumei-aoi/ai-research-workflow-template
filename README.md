@@ -51,21 +51,33 @@ using AI assistants (GitHub Copilot, Gemini CLI, etc.).
 ├── en/                               # English documentation tree
 │   ├── CUSTOMIZE.md                  # Setup guide (English)
 │   ├── handover/                     # Workflow & session management
-│   └── docs/                         # Issues, theory, drafts
+│   └── docs/                         # Issues, theory
 ├── ja/                               # Japanese documentation tree
 │   ├── CUSTOMIZE.md                  # セットアップガイド（日本語）
 │   ├── handover/                     # ワークフロー・セッション管理
-│   └── docs/                         # イシュー、理論資料、草稿
+│   └── docs/                         # イシュー、理論資料
+├── samples/                          # Sample issue data (en/ja bilingual)
+│   └── docs/issues/                  # Example completed issues
 ├── .github/copilot-instructions.md   # Copilot project settings
 ├── GEMINI.md                         # Gemini CLI project settings
 ├── data/                             # Data files (JSON, etc.)
+├── docs/                             # Shared docs (issues, theory)
 ├── src/                              # Source code
-├── tests/                            # Test code
-├── experiments/                      # Experiment scripts
-├── examples/                         # Sample code
-├── scripts/                          # Utility scripts
-└── _legacy/                          # Deprecated files archive
+└── tests/                            # Test code
 ```
+
+### Language Directories (`en/`, `ja/`)
+
+Each language directory contains a complete, self-contained documentation set.
+Users copy the contents of their preferred language to the project root.
+The language choice affects only the instruction language — the research content
+(papers, code, data) remains the same regardless of the chosen language.
+
+### Samples Directory
+
+`samples/` contains example completed issues demonstrating the issue lifecycle.
+These illustrate how to write issues, what AI responses look like, and how
+completed issues are archived.
 
 ## References
 

@@ -65,3 +65,4 @@ docs/issues/
 - [`template_issue_open.md`](template_issue_open.md): `issue_open.md` のブランクテンプレート
 - [`issue_history.md`](issue_history.md): 対応履歴（全イシューの要約）
 - [`../../handover/workflow_method_b.md`](../../handover/workflow_method_b.md): Method B ワークフロー定義
+- [`../../../samples/docs/issues/done/`](../../../samples/docs/issues/done/): 完了済みイシューのサンプル

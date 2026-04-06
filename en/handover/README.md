@@ -63,11 +63,12 @@ Recommended reading order (common to all methods):
 
 <!-- CUSTOMIZE: Add project-specific references here. -->
 
-## 5. Legacy Materials
+## 5. Sample Issues
 
-Moved to `_legacy/handover/` (reference only).
+Example completed issues are available in `/samples/docs/issues/done/`.
+These illustrate the full issue lifecycle in both English and Japanese.
 
-<!-- CUSTOMIZE: Add legacy file references as your project evolves -->
+
 
 ## Operational Notes
 

@@ -75,7 +75,8 @@ Category: [verification | research | proposal | implementation]
 [具体的な作業内容]
 
 ### 完了条件
-[何をもって完了とするか]
+- [ ] 条件1
+- [ ] 条件2
 ```
 
 ### Phase 2: イシュー検出と分析（AI）
@@ -99,10 +100,12 @@ Category: [verification | research | proposal | implementation]
 
 ### Phase 4: 完了処理
 
-1. issue_open.md のステータスを `done` に更新
+1. `issue_open.md` の完了条件チェックボックスを `[x]` に更新し、各項目に `### 対応` セクションを追記
 2. 回答済みファイルを `docs/issues/done/issue_YYMMDD_NN.md` にコピー
-3. issue_open.md をテンプレートにリセット
+3. `issue_open.md` を `template_issue_open.md` の内容で上書き（テンプレート状態に戻す）
 4. `docs/issues/issue_history.md` に記録を追加
+5. `handover_memo_latest.md` を更新
+6. Git 完了処理（下記「ブランチ運用」参照）
 
 ## Core Execution Cycle
 
@@ -125,6 +128,7 @@ Category: [verification | research | proposal | implementation]
 | 作業開始 | ユーザが issue_open.md を配置後、AI がチェックアウト |
 | マージ | `git merge --squash` で main に統合 |
 | マージ後同期 | `git checkout ai/workflow_issue && git merge main` |
+| 完了後状態 | 両ブランチ同期済み、`issue_open.md` はテンプレート状態 |
 
 ### コミットメッセージ
 

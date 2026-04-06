@@ -1,12 +1,12 @@
-Created: today
+Created:
 Category:
 
 ## I1. {Title}
 
-{Body}
+### Background
 
----
+### Requirements
 
-## I2. {Title}
+### Completion Criteria
 
-{Body}
+- [ ] {Criterion 1}

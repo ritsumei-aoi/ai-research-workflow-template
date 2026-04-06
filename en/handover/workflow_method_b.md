@@ -75,7 +75,8 @@ Category: [verification | research | proposal | implementation]
 [Specific work to be done]
 
 ### Completion Criteria
-[What constitutes completion]
+- [ ] Criterion 1
+- [ ] Criterion 2
 ```
 
 ### Phase 2: Issue Detection and Analysis (AI)
@@ -99,10 +100,12 @@ For each issue item:
 
 ### Phase 4: Completion Process
 
-1. Update the status to `done` in issue_open.md
+1. Update completion criteria checkboxes to `[x]` and add `### Response` section per item
 2. Copy the completed file to `docs/issues/done/issue_YYMMDD_NN.md`
-3. Reset issue_open.md to template state
+3. Reset `issue_open.md` by copying `template_issue_open.md`
 4. Add a record to `docs/issues/issue_history.md`
+5. Update `handover/handover_memo_latest.md`
+6. Git completion (see "Branch Operations" below)
 
 ## Core Execution Cycle
 
@@ -125,6 +128,7 @@ For each issue item:
 | Work start | AI checks out after user places issue_open.md |
 | Merge | Integrate to main with `git merge --squash` |
 | Post-merge sync | `git checkout ai/workflow_issue && git merge main` |
+| Post-completion state | Both branches synced, `issue_open.md` in template state |
 
 ### Commit Messages
 

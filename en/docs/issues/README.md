@@ -65,3 +65,4 @@ docs/issues/
 - [`template_issue_open.md`](template_issue_open.md): blank template for `issue_open.md`
 - [`issue_history.md`](issue_history.md): response history (summary of all issues)
 - [`../../handover/workflow_method_b.md`](../../handover/workflow_method_b.md): Method B workflow definition
+- [`../../../samples/docs/issues/done/`](../../../samples/docs/issues/done/): sample completed issues
