@@ -63,10 +63,14 @@ Recommended reading order (common to all methods):
 
 <!-- CUSTOMIZE: Add project-specific references here. -->
 
-## 5. Sample Issues
+## 5. Samples
 
 Example completed issues are available in `/samples/docs/issues/done/`.
 These illustrate the full issue lifecycle in both English and Japanese.
+
+Example theory documents are available in `/samples/docs/theory/`.
+These show how `docs/theory/` is used to store mathematical background
+referenced by issues and verification scripts.
 
 
 

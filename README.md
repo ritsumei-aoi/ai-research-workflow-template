@@ -67,8 +67,10 @@ using AI assistants (GitHub Copilot, Gemini CLI, etc.).
 │   ├── CUSTOMIZE.md                  # セットアップガイド（日本語）
 │   ├── handover/                     # ワークフロー・セッション管理
 │   └── docs/                         # イシュー、理論資料
-├── samples/                          # Sample issue data (en/ja bilingual)
-│   └── docs/issues/                  # Example completed issues
+├── samples/                          # Sample data (en/ja bilingual)
+│   └── docs/                         # Example issues and theory documents
+│       ├── issues/                   # Completed issue examples
+│       └── theory/                   # Theory document examples
 ├── .github/copilot-instructions.md   # Copilot project settings
 ├── GEMINI.md                         # Gemini CLI project settings
 ├── data/                             # Data files (JSON, etc.)
@@ -86,9 +88,15 @@ The language choice affects only the instruction language — the research conte
 
 ### Samples Directory
 
-`samples/` contains example completed issues demonstrating the issue lifecycle.
-These illustrate how to write issues, what AI responses look like, and how
-completed issues are archived.
+`samples/` contains example data demonstrating the workflow in practice:
+
+- **`samples/docs/issues/`** — Completed issue examples showing the full issue lifecycle
+  (proposal, research, verification) with AI responses, in both English and Japanese.
+- **`samples/docs/theory/`** — Theory document examples showing how `docs/theory/` is used
+  to store mathematical background referenced by issues and verification scripts.
+
+These samples are based on the [osp-triviality](https://github.com/ritsumei-aoi/osp-triviality)
+case study.
 
 ## References
 
