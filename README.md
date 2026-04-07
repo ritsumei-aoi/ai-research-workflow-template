@@ -91,7 +91,7 @@ The language choice affects only the instruction language — the research conte
 `samples/` contains example data demonstrating the workflow in practice:
 
 - **`samples/docs/issues/`** — Completed issue examples showing the full issue lifecycle
-  (proposal, research, verification) with AI responses, in both English and Japanese.
+  (proposal, research, verification, and trust boundary remand) with AI responses, in both English and Japanese.
 - **`samples/docs/theory/`** — Theory document examples showing how `docs/theory/` is used
   to store mathematical background referenced by issues and verification scripts.
 
