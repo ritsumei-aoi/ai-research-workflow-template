@@ -60,19 +60,35 @@ Activated by **"perform verification only"** or equivalent instruction.
 ### Phase 1: Issue Creation (Human)
 
 The human writes issue items in `docs/issues/issue_open.md`.
+Copy `template_issue_open.md` and replace `{NN}` with the next issue number.
+
+**Numbering scheme**: `I{NN}-{n}` (NN: 2-digit serial number, n: sub-issue number)
+
+**Multiple themes**: Separate different themes with `---` (horizontal rule) and increment the issue number.
+The AI processes each theme sequentially, completing Phase 4 for each before moving to the next.
 
 Minimal structure:
 ```markdown
 Created: YYYY-MM-DD
 Category: [verification | research | proposal | implementation]
 
-## I1. Title
+## I08-1. Title
 
 ### Background
 [Motivation and context for this issue]
 
 ### Requirements
 [Specific work to be done]
+
+### Supplementary Information
+#### Deliverable Format
+{document / schema / code / decision / script}
+
+#### Related Folders/Files
+- {relative path from repository root}
+
+#### Related Issues
+{e.g., I07-3}
 
 ### Completion Criteria
 - [ ] Criterion 1
@@ -86,6 +102,8 @@ Category: [verification | research | proposal | implementation]
 2. Check `docs/issues/issue_open.md`
    - If non-placeholder items exist, begin handling them
    - If in template state, idle (follow handover instructions)
+   - If **multiple themes** (`---` separator) exist, confirm theme count
+3. Check any project-specific reference materials and present to the user as needed.
 
 ### Phase 3: Issue Handling (AI)
 
@@ -94,18 +112,23 @@ For each issue item:
 1. **Analyze background and requirements**, identify necessary reference materials
 2. **Check delegation boundary**: determine if within scope of ai_trust_policy.md
    - If out of scope → return to `needs_clarification`
-3. **Perform response**: code fixes, verification, document updates, etc.
-4. **Record results**: append response to the relevant item in issue_open.md
-5. **Verify**: run tests, confirm LaTeX compilation, etc.
+3. **Prioritize specificity**: favor analysis grounded in the applicant's concrete context over generic analysis
+4. **Change impact analysis**: if changes propagate to existing files, list the impact scope before executing
+5. **Perform response**: code fixes, verification, document updates, etc.
+6. **Record results**: append response to the relevant item in issue_open.md
+7. **Verify**: run tests, confirm LaTeX compilation, etc.
 
 ### Phase 4: Completion Process
 
 1. Update completion criteria checkboxes to `[x]` and add `### Response` section per item
 2. Copy the completed file to `docs/issues/done/issue_YYMMDD_NN.md`
-3. Reset `issue_open.md` by copying `template_issue_open.md`
+3. Reset `issue_open.md` by copying `template_issue_open.md` (replace `{NN}` with the next number)
 4. Add a record to `docs/issues/issue_history.md`
 5. Update `handover/handover_memo_latest.md`
 6. Git completion (see "Branch Operations" below)
+
+> **Multiple themes**: Complete Phase 4 for each theme before proceeding to the next.
+> On error, leave completed themes as-is and do not enter the next theme.
 
 ## Core Execution Cycle
 
@@ -127,7 +150,7 @@ For each issue item:
 | Branch name | `ai/workflow_issue` (fixed, persistent) |
 | Work start | AI checks out after user places issue_open.md |
 | Merge | Integrate to main with `git merge --squash` |
-| Post-merge sync | `git checkout ai/workflow_issue && git merge main` |
+| Post-merge sync | `git checkout ai/workflow_issue && git reset --hard main && git push --force-with-lease` |
 | Post-completion state | Both branches synced, `issue_open.md` in template state |
 
 ### Commit Messages

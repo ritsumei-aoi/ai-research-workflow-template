@@ -20,6 +20,7 @@ Choose your language below.
 | **Quick Start** | [en/quickstart.md](en/quickstart.md) | [ja/quickstart.md](ja/quickstart.md) |
 | **Handover Index** | [en/handover/README.md](en/handover/README.md) | [ja/handover/README.md](ja/handover/README.md) |
 | **Method B (Issue-Driven Agent)** | [en/handover/workflow_method_b.md](en/handover/workflow_method_b.md) | [ja/handover/workflow_method_b.md](ja/handover/workflow_method_b.md) |
+| **Phase 4 Script** | [en/handover/scripts/close_issue.sh](en/handover/scripts/close_issue.sh) | [ja/handover/scripts/close_issue.sh](ja/handover/scripts/close_issue.sh) |
 | **Common Rules** | [en/handover/workflow_common.md](en/handover/workflow_common.md) | [ja/handover/workflow_common.md](ja/handover/workflow_common.md) |
 | **Method Comparison** | [en/handover/workflow_methods_comparison.md](en/handover/workflow_methods_comparison.md) | [ja/handover/workflow_methods_comparison.md](ja/handover/workflow_methods_comparison.md) |
 
@@ -62,10 +63,12 @@ using AI assistants (GitHub Copilot, Gemini CLI, etc.).
 ├── en/                               # English documentation tree
 │   ├── CUSTOMIZE.md                  # Setup guide (English)
 │   ├── handover/                     # Workflow & session management
+│   │   └── scripts/                  # Automation scripts (close_issue.sh)
 │   └── docs/                         # Issues, theory
 ├── ja/                               # Japanese documentation tree
 │   ├── CUSTOMIZE.md                  # セットアップガイド（日本語）
 │   ├── handover/                     # ワークフロー・セッション管理
+│   │   └── scripts/                  # 自動化スクリプト (close_issue.sh)
 │   └── docs/                         # イシュー、理論資料
 ├── samples/                          # Sample data (en/ja bilingual)
 │   └── docs/                         # Example issues and theory documents

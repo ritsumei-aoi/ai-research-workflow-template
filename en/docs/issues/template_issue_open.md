@@ -1,11 +1,18 @@
 Created:
 Category:
 
-## I1. {Title}
+## I{NN}-1. {Title}
 
 ### Background
 
 ### Requirements
+
+### Supplementary Information
+#### Deliverable Format
+
+#### Related Folders/Files
+
+#### Related Issues
 
 ### Completion Criteria
 

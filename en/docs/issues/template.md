@@ -11,8 +11,10 @@ Category: [category]   # Category (may be left blank; AI assigns based on conten
 
 ### Items
 
+**Numbering scheme**: `I{NN}-{n}` (NN: 2-digit serial number, n: sub-issue number)
+
 ```markdown
-## I{N}. Title
+## I{NN}-1. Title
 
 ### Background
 [Motivation and context for this issue]
@@ -20,18 +22,46 @@ Category: [category]   # Category (may be left blank; AI assigns based on conten
 ### Requirements
 [Specific work to be done]
 
+### Supplementary Information
+#### Deliverable Format
+{document / schema / code / decision / script}
+
+#### Related Folders/Files
+- {relative path from repository root}
+
+#### Related Issues
+{e.g., I07-3}
+
 ### Completion Criteria
 - [ ] Criterion 1
 - [ ] Criterion 2
 ```
 
-Minimal structure (Background, Requirements, Completion Criteria may be omitted):
+Minimal structure (Background, Requirements, Completion Criteria, Supplementary Information may be omitted):
 
 ```markdown
-## I1. Title
+## I01-1. Title
 
 Body
 ```
+
+### Multiple Themes
+
+Separate different themes with `---` (horizontal rule) and increment the issue number:
+
+```markdown
+## I08-1. Theme A
+
+...
+
+---
+
+## I09-1. Theme B
+
+...
+```
+
+The AI processes each theme sequentially, completing Phase 4 for each before moving to the next.
 
 ### Response Section (Added by AI after completion)
 
@@ -78,12 +108,15 @@ done/issue_YYMMDD_NN.md
 
 1. Update completion criteria checkboxes to `[x]` and add `### Response` section per item
 2. Copy to `docs/issues/done/issue_YYMMDD_NN.md`
-3. Reset `issue_open.md` by copying `template_issue_open.md`
+3. Reset `issue_open.md` by copying `template_issue_open.md` (replace `{NN}` with the next number)
 4. Add a record to `docs/issues/issue_history.md`
 5. Update `handover/handover_memo_latest.md`
 6. Squash merge to main, sync branches, push
 
+> **Multiple themes**: Complete Phase 4 for each theme before proceeding to the next.
+> On error, leave completed themes as-is and do not enter the next theme.
+
 Post-completion branch state:
-- **main**: squash commit + hash annotation commit
-- **ai/workflow_issue**: synced with main (merge commit)
+- **main**: squash commit
+- **ai/workflow_issue**: synced with main via `git reset --hard main && git push --force-with-lease`
 - **issue_open.md**: template state on both branches
