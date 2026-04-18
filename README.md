@@ -28,8 +28,16 @@ Choose your language below.
 
 ## Overview
 
-This template provides a workflow foundation for academic research projects
+This template provides a workflow foundation for research and planning projects
 using AI assistants (GitHub Copilot, Gemini CLI, etc.).
+
+### Applicable Project Types
+
+| Type | Example |
+|------|---------|
+| Academic research | Mathematical proofs, paper writing, data analysis |
+| Research project planning | Grant applications, benchmark design, protocol development |
+| Technical documentation | Specification drafting, systematic review |
 
 ### Key Features
 
@@ -65,11 +73,13 @@ using AI assistants (GitHub Copilot, Gemini CLI, etc.).
 │   ├── handover/                     # Workflow & session management
 │   │   └── scripts/                  # Automation scripts (close_issue.sh)
 │   └── docs/                         # Issues, theory
+│       └── tools/                    # Workflow support tools
 ├── ja/                               # Japanese documentation tree
 │   ├── CUSTOMIZE.md                  # セットアップガイド（日本語）
 │   ├── handover/                     # ワークフロー・セッション管理
 │   │   └── scripts/                  # 自動化スクリプト (close_issue.sh)
 │   └── docs/                         # イシュー、理論資料
+│       └── tools/                    # ワークフロー補助ツール
 ├── samples/                          # Sample data (en/ja bilingual)
 │   └── docs/                         # Example issues and theory documents
 │       ├── issues/                   # Completed issue examples
@@ -98,8 +108,10 @@ The language choice affects only the instruction language — the research conte
 - **`samples/docs/theory/`** — Theory document examples showing how `docs/theory/` is used
   to store mathematical background referenced by issues and verification scripts.
 
-These samples are based on the [osp-triviality](https://github.com/ritsumei-aoi/osp-triviality)
-case study.
+These samples include cases from:
+
+- [osp-triviality](https://github.com/ritsumei-aoi/osp-triviality) — Academic research (pure mathematics)
+- [MathQForm](https://ritsumei-aoi.github.io/mathqform/) — Research project planning (benchmark design)
 
 ## References
 

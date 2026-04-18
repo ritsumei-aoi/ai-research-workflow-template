@@ -14,6 +14,7 @@
 #   --remaining-file <path>  Content to place in issue_open.md after processing (default: template)
 #   --dry-run                No writes or git operations; display plan only
 #   --skip-git               Skip git operations (archive only)
+#   --skip-taio-check        Skip '### Response' section existence check
 #   --help                   Show help
 #
 # Examples:
@@ -95,6 +96,7 @@ do_git() {
 
 DRY_RUN=false
 SKIP_GIT=false
+SKIP_TAIO_CHECK=false
 ISSUE_FILE=""
 REMAINING_FILE=""
 
@@ -108,6 +110,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --dry-run)       DRY_RUN=true; shift ;;
     --skip-git)      SKIP_GIT=true; shift ;;
+    --skip-taio-check) SKIP_TAIO_CHECK=true; shift ;;
     --issue-file)    ISSUE_FILE="$2"; shift 2 ;;
     --remaining-file) REMAINING_FILE="$2"; shift 2 ;;
     --help|-h)       show_help ;;
@@ -208,6 +211,14 @@ fi
 if [ ! -d "$DONE_DIR" ]; then
   error "Done directory not found: $DONE_DIR"
   ERRORS=$((ERRORS + 1))
+fi
+
+# 8. Response section existence check (R15)
+if [ "$SKIP_TAIO_CHECK" = false ] && [ -f "$ISSUE_FILE" ]; then
+  if ! grep -q '### Response' "$ISSUE_FILE"; then
+    error "Issue file is missing '### Response' section: $ISSUE_FILE (use --skip-taio-check to override)"
+    ERRORS=$((ERRORS + 1))
+  fi
 fi
 
 if [ "$ERRORS" -gt 0 ]; then

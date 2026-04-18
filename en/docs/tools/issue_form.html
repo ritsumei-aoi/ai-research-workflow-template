@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Method B Issue Generator</title>
+<style>
+  :root { --bg: #f8f9fa; --card: #fff; --border: #dee2e6; --accent: #0969da; --text: #1f2328; --danger: #cf222e; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 1rem; max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .desc { color: #656d76; font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin-bottom: 1rem; position: relative; }
+  label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem; }
+  input, select, textarea { width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; font-family: inherit; margin-bottom: 1rem; }
+  textarea { min-height: 160px; resize: vertical; }
+  .row { display: flex; gap: 1rem; }
+  .row > div { flex: 1; }
+  .sub-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--accent); }
+  .condition-row { display: flex; gap: 0.5rem; margin-bottom: 0.3rem; align-items: center; }
+  .condition-row input { flex: 1; margin-bottom: 0; }
+  .btn-del-cond { background: none; border: none; color: #999; cursor: pointer; font-size: 1rem; padding: 0 0.3rem; }
+  .btn-del-cond:hover { color: var(--danger); }
+  .btn { display: inline-block; padding: 0.6rem 1.2rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #0860c4; }
+  .btn-secondary { background: #eee; color: var(--text); margin-left: 0.5rem; }
+  .btn-secondary:hover { background: #ddd; }
+  .btn-save { background: #2da44e; color: #fff; margin-left: 0.5rem; }
+  .btn-save:hover { background: #298e46; }
+  .btn-add { background: none; border: 1px dashed var(--border); color: #656d76; padding: 0.3rem 0.8rem; font-size: 0.8rem; cursor: pointer; margin-bottom: 1rem; }
+  .btn-add:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-remove { position: absolute; top: 0.5rem; right: 0.5rem; background: none; border: none; color: #999; cursor: pointer; font-size: 1.1rem; }
+  .btn-remove:hover { color: var(--danger); }
+  .output-area { background: #f6f8fa; border: 1px solid var(--border); border-radius: 4px; padding: 1rem; white-space: pre-wrap; font-family: 'SF Mono', Consolas, monospace; font-size: 0.82rem; line-height: 1.5; max-height: 500px; overflow-y: auto; user-select: all; }
+  .status { padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem; font-size: 0.85rem; display: none; }
+  .status.ok { display: block; background: #dafbe1; color: #1a7f37; }
+  .status.err { display: block; background: #ffebe9; color: var(--danger); }
+  .help { color: #656d76; font-size: 0.75rem; margin-top: -0.7rem; margin-bottom: 0.8rem; }
+  .cat-grid { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; margin-bottom: 1rem; }
+  .cat-grid label { display: inline-flex; align-items: center; gap: 0.3rem; font-weight: 400; font-size: 0.85rem; cursor: pointer; }
+  .cat-grid input[type="checkbox"] { width: auto; margin: 0; }
+  .separator-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; padding: 0.4rem 0.6rem; background: #fff8c5; border-radius: 4px; font-size: 0.82rem; }
+  .separator-row input[type="checkbox"] { width: auto; margin: 0; }
+  .separator-row label { font-weight: 400; margin: 0; font-size: 0.82rem; }
+  .sample-bar { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+  .sample-bar select { width: auto; min-width: 200px; margin: 0; }
+  .sample-bar label { margin: 0; white-space: nowrap; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .char-count { color: #656d76; font-size: 0.75rem; text-align: right; margin-top: -0.8rem; margin-bottom: 0.8rem; }
+</style>
+</head>
+<body>
+
+<h1>📝 Method B Issue Generator</h1>
+<p class="desc">イシュー項目を入力すると、<code>issue_open.md</code> 用のマークダウンを生成します。</p>
+
+<!-- サンプル読み込み -->
+<div class="card">
+  <div class="sample-bar">
+    <label for="sample-select">📋 サンプル:</label>
+    <select id="sample-select">
+      <option value="">（空のフォームで開始）</option>
+      <option value="theme">サンプル1: 申請テーマの検証</option>
+      <option value="docs">サンプル2: 申請文書の構成案作成</option>
+      <option value="eval">サンプル3: 評価指標の具体化</option>
+    </select>
+    <button class="btn btn-secondary" onclick="loadSample()" style="margin:0; padding:0.4rem 0.8rem; font-size:0.82rem;">読み込み</button>
+  </div>
+
+  <div class="row">
+    <div>
+      <label for="created">Created</label>
+      <input type="date" id="created">
+    </div>
+    <div>
+      <label>Category（複数選択可）</label>
+      <div class="cat-grid" id="cat-grid">
+        <label><input type="checkbox" value="verification"> verification — 検証</label>
+        <label><input type="checkbox" value="research"> research — 調査</label>
+        <label><input type="checkbox" value="proposal"> proposal — 提案</label>
+        <label><input type="checkbox" value="implementation"> implementation — 実装</label>
+        <label><input type="checkbox" value="paper"> paper — 論文</label>
+        <label><input type="checkbox" value="docs"> docs — 文書</label>
+        <label><input type="checkbox" value="workflow"> workflow — 運用</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="issues-container"></div>
+
+<button class="btn-add" onclick="addIssue()">＋ サブイシューを追加</button>
+
+<div class="toolbar">
+  <button class="btn btn-primary" onclick="generate()">生成</button>
+  <button class="btn btn-secondary" onclick="copyOutput()">📋 クリップボードにコピー</button>
+  <button class="btn btn-save" onclick="saveAsFile()">💾 名前を付けて保存</button>
+  <button class="btn btn-secondary" onclick="resetForm()">🔄 リセット</button>
+</div>
+
+<div id="status" class="status"></div>
+
+<div class="card" style="margin-top:1rem;">
+  <label>出力プレビュー <span id="output-chars" class="char-count" style="display:inline; margin:0;"></span></label>
+  <div id="output" class="output-area">（ここに生成結果が表示されます）</div>
+</div>
+
+<script>
+let issueCount = 0;
+
+// --- サンプルデータ ---
+const SAMPLES = {
+  theme: {
+    category: ['research'],
+    issues: [{
+      nn: '', sub: '1', title: 'テーマの妥当性検証',
+      bg: '- memo/ に整理した申請テーマ案がある\n- AIFS 公募要項との適合性を確認したい',
+      req: '- 公募要項の要件を整理する\n- 現在のテーマ案との適合性を評価する\n- 修正が必要な場合は代替案を提示する',
+      artifact: '文書', files: 'memo/', related: '',
+      conds: ['公募要件の要約', 'テーマ適合性の評価', '必要に応じた修正案の提示']
+    }]
+  },
+  docs: {
+    category: ['docs'],
+    issues: [{
+      nn: '', sub: '1', title: '申請書セクション構成の設計',
+      bg: '- memo/ の検討資料を基に申請書の構成を決める必要がある\n- 公募要項のフォーマット要件を満たす構成にしたい',
+      req: '- 公募要項のフォーマット要件を確認する\n- memo/ の内容を申請書セクションに対応づける\n- セクション構成案を作成する',
+      artifact: '文書', files: 'memo/', related: '',
+      conds: ['フォーマット要件の整理', 'セクション構成案の作成', 'memo/ との対応表']
+    }]
+  },
+  eval: {
+    category: ['research'],
+    issues: [{
+      nn: '', sub: '1', title: '実験計画における評価指標の具体化',
+      bg: '- memo/03 で評価軸の体系を整理済み\n- 申請書に記載するため、より具体的な評価プロトコルが必要',
+      req: '- 主評価軸（情報保持性・機能的扱いやすさ）の具体的な評価手順を設計する\n- 必要な計算資源・コストを見積もる',
+      artifact: '文書', files: 'memo/03-experiment_plan.md', related: '',
+      conds: ['評価プロトコル案の作成', '必要リソースの見積もり']
+    }]
+  }
+};
+
+function addIssue(data) {
+  issueCount++;
+  const n = issueCount;
+  const d = data || {};
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.id = `issue-${n}`;
+
+  const showSep = n > 1;
+  const sepChecked = d.separator ? 'checked' : '';
+
+  div.innerHTML = `
+    ${n > 1 ? `<button class="btn-remove" onclick="removeIssue(${n})" title="このサブイシューを削除">✕</button>` : ''}
+    <div class="sub-title">サブイシュー #${n}</div>
+    ${showSep ? `
+    <div class="separator-row">
+      <input type="checkbox" id="sep-${n}" ${sepChecked}>
+      <label for="sep-${n}">このサブイシューの前に区切り線 <code>---</code> を挿入する（別イシュー扱い）</label>
+    </div>` : ''}
+    <div class="row">
+      <div style="flex:0 0 100px;">
+        <label>番号 (NN)</label>
+        <input type="text" id="nn-${n}" placeholder="18" value="${d.nn || ''}" style="width:100%;">
+      </div>
+      <div style="flex:0 0 60px;">
+        <label>枝番</label>
+        <input type="text" id="sub-${n}" value="${d.sub || n}" style="width:100%;">
+      </div>
+      <div>
+        <label>タイトル</label>
+        <input type="text" id="title-${n}" placeholder="例: ワークフロー改善案の検討" value="${esc(d.title || '')}">
+      </div>
+    </div>
+    <label>背景</label>
+    <textarea id="bg-${n}" placeholder="このイシューの動機・文脈">${esc(d.bg || '')}</textarea>
+    <label>要求</label>
+    <textarea id="req-${n}" placeholder="具体的な作業内容">${esc(d.req || '')}</textarea>
+    <label>成果物形式</label>
+    <input type="text" id="artifact-${n}" placeholder="文書 / スキーマ / コード / 判断 / スクリプト" value="${esc(d.artifact || '')}">
+    <label>関連フォルダ/ファイル</label>
+    <input type="text" id="files-${n}" placeholder="例: docs/schema/, memo/" value="${esc(d.files || '')}">
+    <label>関連issue</label>
+    <input type="text" id="related-${n}" placeholder="例: I07-3（なければ空欄）" value="${esc(d.related || '')}">
+    <label>完了条件</label>
+    <div id="conds-${n}"></div>
+    <button class="btn-add" onclick="addCondition(${n})" style="margin-top:0.3rem;">＋ 条件追加</button>
+  `;
+  document.getElementById('issues-container').appendChild(div);
+
+  const conds = d.conds && d.conds.length > 0 ? d.conds : ['', ''];
+  conds.forEach(c => addCondition(n, c));
+}
+
+function removeIssue(n) {
+  const el = document.getElementById(`issue-${n}`);
+  if (el) el.remove();
+}
+
+function addCondition(n, value) {
+  const row = document.createElement('div');
+  row.className = 'condition-row';
+  row.innerHTML = `<input type="text" placeholder="条件" value="${esc(value || '')}"><button class="btn-del-cond" onclick="this.parentElement.remove()" title="削除">✕</button>`;
+  document.getElementById(`conds-${n}`).appendChild(row);
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function getCategories() {
+  return Array.from(document.querySelectorAll('#cat-grid input:checked')).map(c => c.value);
+}
+
+function setCategories(cats) {
+  document.querySelectorAll('#cat-grid input').forEach(c => { c.checked = cats.includes(c.value); });
+}
+
+function generate() {
+  const created = document.getElementById('created').value || '';
+  const cats = getCategories();
+  let lines = [];
+
+  let lastSepGroup = false;
+
+  const issueEls = document.querySelectorAll('[id^="issue-"]');
+  let firstInGroup = true;
+
+  issueEls.forEach((el, idx) => {
+    const n = el.id.replace('issue-', '');
+    const nn = document.getElementById(`nn-${n}`)?.value.trim() || '';
+    const sub = document.getElementById(`sub-${n}`)?.value.trim() || '';
+    const title = document.getElementById(`title-${n}`)?.value.trim() || '';
+    const bg = document.getElementById(`bg-${n}`)?.value.trim() || '';
+    const req = document.getElementById(`req-${n}`)?.value.trim() || '';
+    const artifact = document.getElementById(`artifact-${n}`)?.value.trim() || '';
+    const files = document.getElementById(`files-${n}`)?.value.trim() || '';
+    const related = document.getElementById(`related-${n}`)?.value.trim() || '';
+    const sepEl = document.getElementById(`sep-${n}`);
+    const hasSep = sepEl ? sepEl.checked : false;
+
+    if (hasSep && idx > 0) {
+      // Insert separator + new header block
+      lines.push('');
+      lines.push('---');
+      lines.push('');
+      lines.push(`Created: ${created}`);
+      lines.push(`Category: ${cats.join(', ') || ''}`);
+      lines.push('');
+    } else if (idx === 0) {
+      lines.push(`Created: ${created}`);
+      lines.push(`Category: ${cats.join(', ') || ''}`);
+      lines.push('');
+    } else {
+      lines.push('');
+    }
+
+    lines.push(`## I${nn}-${sub}. ${title || '{タイトル}'}`);
+    lines.push('');
+    lines.push('### 背景');
+    lines.push('');
+    lines.push(bg || '{背景}');
+    lines.push('');
+    lines.push('### 要求');
+    lines.push('');
+    lines.push(req || '{要求}');
+    lines.push('');
+    lines.push('### 補足情報');
+    lines.push('');
+    lines.push('#### 成果物形式');
+    lines.push('');
+    lines.push(artifact || '{文書 / スキーマ / コード / 判断 / スクリプト}');
+    lines.push('');
+    lines.push('#### 関連フォルダ/ファイル');
+    lines.push('');
+    if (files) {
+      files.split(',').forEach(f => lines.push(`- ${f.trim()}`));
+    } else {
+      lines.push('- {例: docs/schema/}');
+    }
+    lines.push('');
+    lines.push('#### 関連issue');
+    lines.push('');
+    lines.push(related || 'なし');
+    lines.push('');
+    lines.push('### 完了条件');
+    lines.push('');
+
+    const conds = document.querySelectorAll(`#conds-${n} input`);
+    let hasAny = false;
+    conds.forEach(c => {
+      const v = c.value.trim();
+      if (v) { lines.push(`- [ ] ${v}`); hasAny = true; }
+    });
+    if (!hasAny) lines.push('- [ ] {条件1}');
+  });
+
+  const result = lines.join('\n') + '\n';
+  document.getElementById('output').textContent = result;
+  document.getElementById('output-chars').textContent = `(${result.length} 文字)`;
+  showStatus('ok', '生成完了 — 下のプレビューを確認してください');
+}
+
+function copyOutput() {
+  const text = document.getElementById('output').textContent;
+  if (!text || text.startsWith('（ここに')) {
+    showStatus('err', '先に「生成」を押してください');
+    return;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showStatus('ok', 'クリップボードにコピーしました');
+    }).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const el = document.getElementById('output');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+  showStatus('ok', 'テキストを選択しました — Cmd+C / Ctrl+C でコピーしてください');
+}
+
+function saveAsFile() {
+  const text = document.getElementById('output').textContent;
+  if (!text || text.startsWith('（ここに')) {
+    showStatus('err', '先に「生成」を押してください');
+    return;
+  }
+  const defaultName = `issue_open_${new Date().toISOString().slice(0,10)}.md`;
+  const fileName = prompt('ファイル名を入力してください:', defaultName);
+  if (!fileName) return;
+
+  const blob = new Blob([text], { type: 'text/markdown; charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showStatus('ok', `"${fileName}" を保存しました`);
+}
+
+function loadSample() {
+  const key = document.getElementById('sample-select').value;
+  if (!key) {
+    resetForm();
+    return;
+  }
+  const sample = SAMPLES[key];
+  if (!sample) return;
+
+  document.getElementById('issues-container').innerHTML = '';
+  issueCount = 0;
+  setCategories(sample.category || []);
+  sample.issues.forEach(d => addIssue(d));
+  document.getElementById('output').textContent = '（ここに生成結果が表示されます）';
+  document.getElementById('output-chars').textContent = '';
+  showStatus('ok', `サンプル「${document.getElementById('sample-select').selectedOptions[0].text}」を読み込みました`);
+}
+
+function resetForm() {
+  document.getElementById('created').value = new Date().toISOString().slice(0, 10);
+  setCategories([]);
+  document.getElementById('issues-container').innerHTML = '';
+  document.getElementById('output').textContent = '（ここに生成結果が表示されます）';
+  document.getElementById('output-chars').textContent = '';
+  document.getElementById('status').className = 'status';
+  document.getElementById('sample-select').value = '';
+  issueCount = 0;
+  addIssue();
+}
+
+function showStatus(type, msg) {
+  const el = document.getElementById('status');
+  el.className = `status ${type}`;
+  el.textContent = msg;
+  setTimeout(() => { el.className = 'status'; }, 4000);
+}
+
+// 初期化
+document.getElementById('created').value = new Date().toISOString().slice(0, 10);
+addIssue();
+</script>
+</body>
+</html>

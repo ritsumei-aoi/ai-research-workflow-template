@@ -14,6 +14,7 @@
 #   --remaining-file <path>  処理後に issue_open.md に配置する内容（省略時: テンプレート）
 #   --dry-run                書き込み・git操作を一切行わず、計画のみ表示
 #   --skip-git               git操作をスキップ（アーカイブのみ実行）
+#   --skip-taio-check        「### 対応」セクションの存在チェックをスキップ
 #   --help                   ヘルプ表示
 #
 # 例:
@@ -95,6 +96,7 @@ do_git() {
 
 DRY_RUN=false
 SKIP_GIT=false
+SKIP_TAIO_CHECK=false
 ISSUE_FILE=""
 REMAINING_FILE=""
 
@@ -108,6 +110,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --dry-run)       DRY_RUN=true; shift ;;
     --skip-git)      SKIP_GIT=true; shift ;;
+    --skip-taio-check) SKIP_TAIO_CHECK=true; shift ;;
     --issue-file)    ISSUE_FILE="$2"; shift 2 ;;
     --remaining-file) REMAINING_FILE="$2"; shift 2 ;;
     --help|-h)       show_help ;;
@@ -208,6 +211,14 @@ fi
 if [ ! -d "$DONE_DIR" ]; then
   error "Done directory not found: $DONE_DIR"
   ERRORS=$((ERRORS + 1))
+fi
+
+# 8. 「### 対応」セクションの存在チェック（R15）
+if [ "$SKIP_TAIO_CHECK" = false ] && [ -f "$ISSUE_FILE" ]; then
+  if ! grep -q '### 対応' "$ISSUE_FILE"; then
+    error "Issue file is missing '### 対応' section: $ISSUE_FILE (use --skip-taio-check to override)"
+    ERRORS=$((ERRORS + 1))
+  fi
 fi
 
 if [ "$ERRORS" -gt 0 ]; then
