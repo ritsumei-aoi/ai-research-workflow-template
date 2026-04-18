@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,19 +53,18 @@
 <body>
 
 <h1>📝 Method B Issue Generator</h1>
-<p class="desc">イシュー項目を入力すると、<code>issue_open.md</code> 用のマークダウンを生成します。</p>
+<p class="desc">Fill in issue fields to generate markdown for <code>issue_open.md</code>.</p>
 
-<!-- サンプル読み込み -->
 <div class="card">
   <div class="sample-bar">
-    <label for="sample-select">📋 サンプル:</label>
+    <label for="sample-select">📋 Sample:</label>
     <select id="sample-select">
-      <option value="">（空のフォームで開始）</option>
-      <option value="theme">サンプル1: 申請テーマの検証</option>
-      <option value="docs">サンプル2: 申請文書の構成案作成</option>
-      <option value="eval">サンプル3: 評価指標の具体化</option>
+      <option value="">(Start with empty form)</option>
+      <option value="verify">Sample 1: Verify Component Ordering</option>
+      <option value="research">Sample 2: Paper Introduction Directions</option>
+      <option value="ninv">Sample 3: Verify n-Invariance</option>
     </select>
-    <button class="btn btn-secondary" onclick="loadSample()" style="margin:0; padding:0.4rem 0.8rem; font-size:0.82rem;">読み込み</button>
+    <button class="btn btn-secondary" onclick="loadSample()" style="margin:0; padding:0.4rem 0.8rem; font-size:0.82rem;">Load</button>
   </div>
 
   <div class="row">
@@ -74,15 +73,15 @@
       <input type="date" id="created">
     </div>
     <div>
-      <label>Category（複数選択可）</label>
+      <label>Category (multiple selection)</label>
       <div class="cat-grid" id="cat-grid">
-        <label><input type="checkbox" value="verification"> verification — 検証</label>
-        <label><input type="checkbox" value="research"> research — 調査</label>
-        <label><input type="checkbox" value="proposal"> proposal — 提案</label>
-        <label><input type="checkbox" value="implementation"> implementation — 実装</label>
-        <label><input type="checkbox" value="paper"> paper — 論文</label>
-        <label><input type="checkbox" value="docs"> docs — 文書</label>
-        <label><input type="checkbox" value="workflow"> workflow — 運用</label>
+        <label><input type="checkbox" value="verification"> verification</label>
+        <label><input type="checkbox" value="research"> research</label>
+        <label><input type="checkbox" value="proposal"> proposal</label>
+        <label><input type="checkbox" value="implementation"> implementation</label>
+        <label><input type="checkbox" value="paper"> paper</label>
+        <label><input type="checkbox" value="docs"> docs</label>
+        <label><input type="checkbox" value="workflow"> workflow</label>
       </div>
     </div>
   </div>
@@ -90,55 +89,54 @@
 
 <div id="issues-container"></div>
 
-<button class="btn-add" onclick="addIssue()">＋ サブイシューを追加</button>
+<button class="btn-add" onclick="addIssue()">+ Add sub-issue</button>
 
 <div class="toolbar">
-  <button class="btn btn-primary" onclick="generate()">生成</button>
-  <button class="btn btn-secondary" onclick="copyOutput()">📋 クリップボードにコピー</button>
-  <button class="btn btn-save" onclick="saveAsFile()">💾 名前を付けて保存</button>
-  <button class="btn btn-secondary" onclick="resetForm()">🔄 リセット</button>
+  <button class="btn btn-primary" onclick="generate()">Generate</button>
+  <button class="btn btn-secondary" onclick="copyOutput()">📋 Copy to clipboard</button>
+  <button class="btn btn-save" onclick="saveAsFile()">💾 Save as file</button>
+  <button class="btn btn-secondary" onclick="resetForm()">🔄 Reset</button>
 </div>
 
 <div id="status" class="status"></div>
 
 <div class="card" style="margin-top:1rem;">
-  <label>出力プレビュー <span id="output-chars" class="char-count" style="display:inline; margin:0;"></span></label>
-  <div id="output" class="output-area">（ここに生成結果が表示されます）</div>
+  <label>Output preview <span id="output-chars" class="char-count" style="display:inline; margin:0;"></span></label>
+  <div id="output" class="output-area">(Output will appear here)</div>
 </div>
 
 <script>
 let issueCount = 0;
 
-// --- サンプルデータ ---
 const SAMPLES = {
-  theme: {
-    category: ['research'],
+  verify: {
+    category: ['verification'],
     issues: [{
-      nn: '', sub: '1', title: 'テーマの妥当性検証',
-      bg: '- memo/ に整理した申請テーマ案がある\n- AIFS 公募要項との適合性を確認したい',
-      req: '- 公募要項の要件を整理する\n- 現在のテーマ案との適合性を評価する\n- 修正が必要な場合は代替案を提示する',
-      artifact: '文書', files: 'memo/', related: '',
-      conds: ['公募要件の要約', 'テーマ適合性の評価', '必要に応じた修正案の提示']
+      nn: '', sub: '1', title: 'Verify Component Ordering in Proposition 3.5',
+      bg: '- Proposition 3.5 in `docs/theory/triviality_B0n.tex` lists component ordering\n- Verification script `scripts/verify_proposition.py` is available\n- Section 3 rewrite may have changed the component ordering',
+      req: '- Confirm the component ordering in Proposition 3.5 matches the definition of δ (Eq. 3.2)\n- Run the verification script and check all components pass\n- If mismatches are found, identify the correct ordering',
+      artifact: 'Document', files: 'docs/theory/, scripts/', related: '',
+      conds: ['Component ordering of Proposition 3.5 and Eq. 3.2 are compared', 'Verification script runs without errors', 'All components confirmed to match (or corrections proposed)']
     }]
   },
-  docs: {
-    category: ['docs'],
-    issues: [{
-      nn: '', sub: '1', title: '申請書セクション構成の設計',
-      bg: '- memo/ の検討資料を基に申請書の構成を決める必要がある\n- 公募要項のフォーマット要件を満たす構成にしたい',
-      req: '- 公募要項のフォーマット要件を確認する\n- memo/ の内容を申請書セクションに対応づける\n- セクション構成案を作成する',
-      artifact: '文書', files: 'memo/', related: '',
-      conds: ['フォーマット要件の整理', 'セクション構成案の作成', 'memo/ との対応表']
-    }]
-  },
-  eval: {
+  research: {
     category: ['research'],
     issues: [{
-      nn: '', sub: '1', title: '実験計画における評価指標の具体化',
-      bg: '- memo/03 で評価軸の体系を整理済み\n- 申請書に記載するため、より具体的な評価プロトコルが必要',
-      req: '- 主評価軸（情報保持性・機能的扱いやすさ）の具体的な評価手順を設計する\n- 必要な計算資源・コストを見積もる',
-      artifact: '文書', files: 'memo/03-experiment_plan.md', related: '',
-      conds: ['評価プロトコル案の作成', '必要リソースの見積もり']
+      nn: '', sub: '1', title: 'Direction Candidates for Paper Introduction',
+      bg: '- The English paper `docs/theory/triviality_B0n.tex` currently lacks an Introduction section\n- The paper builds on Bakalov–Sullivan (arXiv:1612.09400v2) and needs positioning within the context of deformation theory for Lie superalgebras',
+      req: '- Present multiple candidates for the Introduction content\n- For each candidate, specify the structure outline and advantages',
+      artifact: 'Document', files: 'docs/theory/', related: '',
+      conds: ['At least 3 direction candidates are presented', 'Each candidate has a structure outline and stated advantages', 'A recommended candidate is specified']
+    }]
+  },
+  ninv: {
+    category: ['verification'],
+    issues: [{
+      nn: '', sub: '1', title: 'Verify n-Invariance of Family I/II Certificates',
+      bg: '- According to `docs/theory/triviality_certificates.md`, the triviality certificates for Families I and II satisfy an n-invariance property\n- The code repository provides `scripts/verify_n_invariance.py` for checking this property\n- If n-invariance holds, a single certificate verified for small n proves the result for all n',
+      req: '- Read the n-invariance claim in the documentation\n- Run `scripts/verify_n_invariance.py` for B(0,1) through B(0,3) and confirm certificates match across ranks\n- Summarize which families and weight types are covered',
+      artifact: 'Document', files: 'docs/theory/, scripts/', related: 'I1',
+      conds: ['n-invariance property confirmed for Family I', 'n-invariance property confirmed for Family II', 'Results for B(0,1), B(0,2), B(0,3) compared and reported']
     }]
   }
 };
@@ -155,40 +153,40 @@ function addIssue(data) {
   const sepChecked = d.separator ? 'checked' : '';
 
   div.innerHTML = `
-    ${n > 1 ? `<button class="btn-remove" onclick="removeIssue(${n})" title="このサブイシューを削除">✕</button>` : ''}
-    <div class="sub-title">サブイシュー #${n}</div>
+    ${n > 1 ? `<button class="btn-remove" onclick="removeIssue(${n})" title="Remove this sub-issue">✕</button>` : ''}
+    <div class="sub-title">Sub-issue #${n}</div>
     ${showSep ? `
     <div class="separator-row">
       <input type="checkbox" id="sep-${n}" ${sepChecked}>
-      <label for="sep-${n}">このサブイシューの前に区切り線 <code>---</code> を挿入する（別イシュー扱い）</label>
+      <label for="sep-${n}">Insert separator <code>---</code> before this sub-issue (treat as separate issue)</label>
     </div>` : ''}
     <div class="row">
       <div style="flex:0 0 100px;">
-        <label>番号 (NN)</label>
+        <label>Number (NN)</label>
         <input type="text" id="nn-${n}" placeholder="18" value="${d.nn || ''}" style="width:100%;">
       </div>
       <div style="flex:0 0 60px;">
-        <label>枝番</label>
+        <label>Sub #</label>
         <input type="text" id="sub-${n}" value="${d.sub || n}" style="width:100%;">
       </div>
       <div>
-        <label>タイトル</label>
-        <input type="text" id="title-${n}" placeholder="例: ワークフロー改善案の検討" value="${esc(d.title || '')}">
+        <label>Title</label>
+        <input type="text" id="title-${n}" placeholder="e.g.: Workflow improvement proposal" value="${esc(d.title || '')}">
       </div>
     </div>
-    <label>背景</label>
-    <textarea id="bg-${n}" placeholder="このイシューの動機・文脈">${esc(d.bg || '')}</textarea>
-    <label>要求</label>
-    <textarea id="req-${n}" placeholder="具体的な作業内容">${esc(d.req || '')}</textarea>
-    <label>成果物形式</label>
-    <input type="text" id="artifact-${n}" placeholder="文書 / スキーマ / コード / 判断 / スクリプト" value="${esc(d.artifact || '')}">
-    <label>関連フォルダ/ファイル</label>
-    <input type="text" id="files-${n}" placeholder="例: docs/schema/, memo/" value="${esc(d.files || '')}">
-    <label>関連issue</label>
-    <input type="text" id="related-${n}" placeholder="例: I07-3（なければ空欄）" value="${esc(d.related || '')}">
-    <label>完了条件</label>
+    <label>Background</label>
+    <textarea id="bg-${n}" placeholder="Motivation and context for this issue">${esc(d.bg || '')}</textarea>
+    <label>Requirements</label>
+    <textarea id="req-${n}" placeholder="Specific tasks to perform">${esc(d.req || '')}</textarea>
+    <label>Deliverable type</label>
+    <input type="text" id="artifact-${n}" placeholder="Document / Schema / Code / Judgment / Script" value="${esc(d.artifact || '')}">
+    <label>Related folders/files</label>
+    <input type="text" id="files-${n}" placeholder="e.g.: docs/schema/, memo/" value="${esc(d.files || '')}">
+    <label>Related issues</label>
+    <input type="text" id="related-${n}" placeholder="e.g.: I07-3 (leave blank if none)" value="${esc(d.related || '')}">
+    <label>Completion criteria</label>
     <div id="conds-${n}"></div>
-    <button class="btn-add" onclick="addCondition(${n})" style="margin-top:0.3rem;">＋ 条件追加</button>
+    <button class="btn-add" onclick="addCondition(${n})" style="margin-top:0.3rem;">+ Add condition</button>
   `;
   document.getElementById('issues-container').appendChild(div);
 
@@ -204,7 +202,7 @@ function removeIssue(n) {
 function addCondition(n, value) {
   const row = document.createElement('div');
   row.className = 'condition-row';
-  row.innerHTML = `<input type="text" placeholder="条件" value="${esc(value || '')}"><button class="btn-del-cond" onclick="this.parentElement.remove()" title="削除">✕</button>`;
+  row.innerHTML = `<input type="text" placeholder="Condition" value="${esc(value || '')}"><button class="btn-del-cond" onclick="this.parentElement.remove()" title="Delete">✕</button>`;
   document.getElementById(`conds-${n}`).appendChild(row);
 }
 
@@ -246,7 +244,6 @@ function generate() {
     const hasSep = sepEl ? sepEl.checked : false;
 
     if (hasSep && idx > 0) {
-      // Insert separator + new header block
       lines.push('');
       lines.push('---');
       lines.push('');
@@ -261,35 +258,35 @@ function generate() {
       lines.push('');
     }
 
-    lines.push(`## I${nn}-${sub}. ${title || '{タイトル}'}`);
+    lines.push(`## I${nn}-${sub}. ${title || '{Title}'}`);
     lines.push('');
-    lines.push('### 背景');
+    lines.push('### Background');
     lines.push('');
-    lines.push(bg || '{背景}');
+    lines.push(bg || '{Background}');
     lines.push('');
-    lines.push('### 要求');
+    lines.push('### Requirements');
     lines.push('');
-    lines.push(req || '{要求}');
+    lines.push(req || '{Requirements}');
     lines.push('');
-    lines.push('### 補足情報');
+    lines.push('### Supplementary Information');
     lines.push('');
-    lines.push('#### 成果物形式');
+    lines.push('#### Deliverable Type');
     lines.push('');
-    lines.push(artifact || '{文書 / スキーマ / コード / 判断 / スクリプト}');
+    lines.push(artifact || '{Document / Schema / Code / Judgment / Script}');
     lines.push('');
-    lines.push('#### 関連フォルダ/ファイル');
+    lines.push('#### Related Folders/Files');
     lines.push('');
     if (files) {
       files.split(',').forEach(f => lines.push(`- ${f.trim()}`));
     } else {
-      lines.push('- {例: docs/schema/}');
+      lines.push('- {e.g.: docs/schema/}');
     }
     lines.push('');
-    lines.push('#### 関連issue');
+    lines.push('#### Related Issues');
     lines.push('');
-    lines.push(related || 'なし');
+    lines.push(related || 'None');
     lines.push('');
-    lines.push('### 完了条件');
+    lines.push('### Completion Criteria');
     lines.push('');
 
     const conds = document.querySelectorAll(`#conds-${n} input`);
@@ -298,24 +295,24 @@ function generate() {
       const v = c.value.trim();
       if (v) { lines.push(`- [ ] ${v}`); hasAny = true; }
     });
-    if (!hasAny) lines.push('- [ ] {条件1}');
+    if (!hasAny) lines.push('- [ ] {Condition 1}');
   });
 
   const result = lines.join('\n') + '\n';
   document.getElementById('output').textContent = result;
-  document.getElementById('output-chars').textContent = `(${result.length} 文字)`;
-  showStatus('ok', '生成完了 — 下のプレビューを確認してください');
+  document.getElementById('output-chars').textContent = `(${result.length} chars)`;
+  showStatus('ok', 'Generated — check the preview below');
 }
 
 function copyOutput() {
   const text = document.getElementById('output').textContent;
-  if (!text || text.startsWith('（ここに')) {
-    showStatus('err', '先に「生成」を押してください');
+  if (!text || text.startsWith('(Output')) {
+    showStatus('err', 'Please click "Generate" first');
     return;
   }
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      showStatus('ok', 'クリップボードにコピーしました');
+      showStatus('ok', 'Copied to clipboard');
     }).catch(() => fallbackCopy(text));
   } else {
     fallbackCopy(text);
@@ -328,17 +325,17 @@ function fallbackCopy(text) {
   range.selectNodeContents(el);
   window.getSelection().removeAllRanges();
   window.getSelection().addRange(range);
-  showStatus('ok', 'テキストを選択しました — Cmd+C / Ctrl+C でコピーしてください');
+  showStatus('ok', 'Text selected — copy with Cmd+C / Ctrl+C');
 }
 
 function saveAsFile() {
   const text = document.getElementById('output').textContent;
-  if (!text || text.startsWith('（ここに')) {
-    showStatus('err', '先に「生成」を押してください');
+  if (!text || text.startsWith('(Output')) {
+    showStatus('err', 'Please click "Generate" first');
     return;
   }
   const defaultName = `issue_open_${new Date().toISOString().slice(0,10)}.md`;
-  const fileName = prompt('ファイル名を入力してください:', defaultName);
+  const fileName = prompt('Enter file name:', defaultName);
   if (!fileName) return;
 
   const blob = new Blob([text], { type: 'text/markdown; charset=utf-8' });
@@ -350,7 +347,7 @@ function saveAsFile() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showStatus('ok', `"${fileName}" を保存しました`);
+  showStatus('ok', `"${fileName}" saved`);
 }
 
 function loadSample() {
@@ -366,16 +363,16 @@ function loadSample() {
   issueCount = 0;
   setCategories(sample.category || []);
   sample.issues.forEach(d => addIssue(d));
-  document.getElementById('output').textContent = '（ここに生成結果が表示されます）';
+  document.getElementById('output').textContent = '(Output will appear here)';
   document.getElementById('output-chars').textContent = '';
-  showStatus('ok', `サンプル「${document.getElementById('sample-select').selectedOptions[0].text}」を読み込みました`);
+  showStatus('ok', `Sample "${document.getElementById('sample-select').selectedOptions[0].text}" loaded`);
 }
 
 function resetForm() {
   document.getElementById('created').value = new Date().toISOString().slice(0, 10);
   setCategories([]);
   document.getElementById('issues-container').innerHTML = '';
-  document.getElementById('output').textContent = '（ここに生成結果が表示されます）';
+  document.getElementById('output').textContent = '(Output will appear here)';
   document.getElementById('output-chars').textContent = '';
   document.getElementById('status').className = 'status';
   document.getElementById('sample-select').value = '';
@@ -390,7 +387,7 @@ function showStatus(type, msg) {
   setTimeout(() => { el.className = 'status'; }, 4000);
 }
 
-// 初期化
+// Initialize
 document.getElementById('created').value = new Date().toISOString().slice(0, 10);
 addIssue();
 </script>

@@ -61,9 +61,9 @@
     <label for="sample-select">📋 サンプル:</label>
     <select id="sample-select">
       <option value="">（空のフォームで開始）</option>
-      <option value="theme">サンプル1: 申請テーマの検証</option>
-      <option value="docs">サンプル2: 申請文書の構成案作成</option>
-      <option value="eval">サンプル3: 評価指標の具体化</option>
+      <option value="verify">サンプル1: 命題の成分順序の検証</option>
+      <option value="research">サンプル2: 論文の方向性候補の提示</option>
+      <option value="ninv">サンプル3: n 不変性の検証</option>
     </select>
     <button class="btn btn-secondary" onclick="loadSample()" style="margin:0; padding:0.4rem 0.8rem; font-size:0.82rem;">読み込み</button>
   </div>
@@ -111,34 +111,34 @@ let issueCount = 0;
 
 // --- サンプルデータ ---
 const SAMPLES = {
-  theme: {
-    category: ['research'],
+  verify: {
+    category: ['verification'],
     issues: [{
-      nn: '', sub: '1', title: 'テーマの妥当性検証',
-      bg: '- memo/ に整理した申請テーマ案がある\n- AIFS 公募要項との適合性を確認したい',
-      req: '- 公募要項の要件を整理する\n- 現在のテーマ案との適合性を評価する\n- 修正が必要な場合は代替案を提示する',
-      artifact: '文書', files: 'memo/', related: '',
-      conds: ['公募要件の要約', 'テーマ適合性の評価', '必要に応じた修正案の提示']
+      nn: '', sub: '1', title: '命題の成分順序の検証',
+      bg: '- `docs/theory/triviality_B0n.tex` の命題 3.5 において成分順序が列挙されている\n- 検証スクリプト `scripts/verify_proposition.py` が開発済み\n- セクション 3 の書き換えにより順序が変更された可能性がある',
+      req: '- 命題 3.5 の成分順序が定義（Eq. 3.2）と整合することを確認する\n- 検証スクリプトを実行し、全成分が pass することを確認する\n- 不一致があれば正しい順序を特定する',
+      artifact: '文書', files: 'docs/theory/, scripts/', related: '',
+      conds: ['命題 3.5 と Eq. 3.2 の成分順序が比較されている', '検証スクリプトがエラーなく実行される', '全成分の一致が確認されている']
     }]
   },
-  docs: {
-    category: ['docs'],
-    issues: [{
-      nn: '', sub: '1', title: '申請書セクション構成の設計',
-      bg: '- memo/ の検討資料を基に申請書の構成を決める必要がある\n- 公募要項のフォーマット要件を満たす構成にしたい',
-      req: '- 公募要項のフォーマット要件を確認する\n- memo/ の内容を申請書セクションに対応づける\n- セクション構成案を作成する',
-      artifact: '文書', files: 'memo/', related: '',
-      conds: ['フォーマット要件の整理', 'セクション構成案の作成', 'memo/ との対応表']
-    }]
-  },
-  eval: {
+  research: {
     category: ['research'],
     issues: [{
-      nn: '', sub: '1', title: '実験計画における評価指標の具体化',
-      bg: '- memo/03 で評価軸の体系を整理済み\n- 申請書に記載するため、より具体的な評価プロトコルが必要',
-      req: '- 主評価軸（情報保持性・機能的扱いやすさ）の具体的な評価手順を設計する\n- 必要な計算資源・コストを見積もる',
-      artifact: '文書', files: 'memo/03-experiment_plan.md', related: '',
-      conds: ['評価プロトコル案の作成', '必要リソースの見積もり']
+      nn: '', sub: '1', title: '論文 Introduction の方向性候補の提示',
+      bg: '- 英語論文 `docs/theory/triviality_B0n.tex` には現在 Introduction セクションがない\n- Bakalov–Sullivan (arXiv:1612.09400v2) を出発点としており、変形理論の文脈に位置づける必要がある',
+      req: '- Introduction として記載する内容の候補を複数提示すること\n- 各候補について構成案と利点を明記すること',
+      artifact: '文書', files: 'docs/theory/', related: '',
+      conds: ['3つ以上の方向性候補が提示されている', '各候補に構成案と利点が記載されている', '推奨案が明記されている']
+    }]
+  },
+  ninv: {
+    category: ['verification'],
+    issues: [{
+      nn: '', sub: '1', title: 'Family I/II Certificate の n 不変性の検証',
+      bg: '- `docs/theory/triviality_certificates.md` によると、Family I/II の自明性 certificate は n 不変性を満たす\n- 公開リポジトリに検証スクリプト `scripts/verify_n_invariance.py` が用意されている\n- n 不変性が成り立てば、小さい n で検証した certificate がすべての n に対する結果を証明する',
+      req: '- n 不変性の主張を確認する\n- 検証スクリプトを B(0,1) から B(0,3) に対して実行し、certificate がランク間で一致することを確認する\n- どのファミリー・ウェイトタイプがカバーされるかをまとめる',
+      artifact: '文書', files: 'docs/theory/, scripts/', related: 'I1',
+      conds: ['Family I について n 不変性が確認されている', 'Family II について n 不変性が確認されている', 'B(0,1)、B(0,2)、B(0,3) の結果が比較・報告されている']
     }]
   }
 };
