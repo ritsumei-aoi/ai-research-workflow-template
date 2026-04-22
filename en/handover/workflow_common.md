@@ -28,6 +28,35 @@ Method comparison and selection guide: [workflow_methods_comparison.md](workflow
 - Keep persisted schemas stable: `schema_version` is required; breaking changes require a version bump.
 - Always follow the AI delegation boundary ([ai_trust_policy.md](ai_trust_policy.md)).
 
+## AI Response Quality Rules
+
+### Prioritize Specificity (R4)
+
+- Favor analysis grounded in the **project's specific context and constraints** over generic analysis.
+- Reference actual resources and constraints (budget, equipment, personnel, timeline) rather than generic statements like "generally considered effective."
+
+### Change Impact Analysis (R5/R12)
+
+- When making changes that propagate to existing files (schema changes, name changes, etc.):
+  1. **List the impact scope first** (search related files with grep, etc.)
+  2. Present the impact scope to the user (when the number of files is large)
+  3. Apply changes to all files in the list
+  4. Verify there are no missed changes
+- **Pre-execution file list** must be recorded in the `### Response` section (R12)
+  - Format: list of affected file paths + description of changes
+  - If actual changes differ from the pre-execution estimate, note that too
+
+### Handling Unverified Claims (R13)
+
+- **Principle**: Evaluations and analyses produced before project start (planning/application stage) are **unverified by default**
+- Explicitly label verified claims as **"Verified"**
+  - Minimum evidence: test results / reproduction experiments / quantitative data / external citations
+- Unverified evaluations used in decision-making should be updated when a verification opportunity arises in a subsequent issue
+
+### Empirical Verification for Tool Recommendations (R18)
+
+- When recommending the adoption of external tools or services, either perform a minimal hands-on check (install confirmation, basic operation test, etc.) or explicitly state that it is unverified
+
 ## Branching Policy
 
 1. Method B: Fixed `ai/workflow_issue` branch.

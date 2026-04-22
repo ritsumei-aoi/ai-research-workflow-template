@@ -61,16 +61,40 @@ Activated by **"perform verification only"** or equivalent instruction.
 
 The human writes issue items in `docs/issues/issue_open.md`.
 Copy `template_issue_open.md` and replace `{NN}` with the next issue number.
+The browser form (`docs/tools/issue_form.html`) can be used to prevent missing fields (R10).
 
 **Numbering scheme**: `I{NN}-{n}` (NN: 2-digit serial number, n: sub-issue number)
 
 **Multiple themes**: Separate different themes with `---` (horizontal rule) and increment the issue number.
 The AI processes each theme sequentially, completing Phase 4 for each before moving to the next.
 
+#### Phase 1 Supplement: Prompt Guidelines (R18-2)
+
+Guidelines for the prompt (chat input) sent to the AI agent after placing `issue_open.md`.
+
+**Principle**: The prompt **complements** `issue_open.md` and does not **duplicate** its content.
+`issue_open.md` is the formal specification; the prompt is the accompanying verbal instruction.
+
+**Content to include in prompts** (things difficult to write in issue_open.md):
+
+| Category | Example | Effect |
+|----------|---------|--------|
+| **Trigger** | "I created an issue, please handle it" | Instructs AI to start work |
+| **Permission grant** | "Feel free to modify without worrying about backward compatibility" | Expands AI autonomy, prevents rework |
+| **Behavioral guidance** | "Evaluate objectively without bias" | Suppresses bias in evaluation tasks |
+| **Environment info** | "The template is in a sibling directory" | Provides info not inferable from issue_open.md |
+| **Priority hints** | "Process the first issue first" | Specifies order for multiple issues |
+
+**Content to exclude from prompts**:
+- Repetition of issue background/requirements (already in issue_open.md)
+- Additional completion criteria (should be in issue_open.md)
+
+**Traceability**: Since prompts are not logged, instructions that influenced AI decisions (permission grants, behavioral guidance, etc.) should be recorded in the `### Response` section as "Per prompt instruction, ...".
+
 Minimal structure:
 ```markdown
 Created: YYYY-MM-DD
-Category: [verification | research | proposal | implementation]
+Category: [verification | research | proposal | implementation | paper | docs | workflow]
 
 ## I08-1. Title
 
@@ -103,7 +127,12 @@ Category: [verification | research | proposal | implementation]
    - If non-placeholder items exist, begin handling them
    - If in template state, idle (follow handover instructions)
    - If **multiple themes** (`---` separator) exist, confirm theme count
-3. Check any project-specific reference materials and present to the user as needed.
+3. **Metadata auto-fill (R10)**: If `Created:` or `Category:` headers are blank:
+   - `Created:` → fill in the current date (record in `### Response` that it is an estimated value)
+   - `Category:` → infer from issue content and fill in (select from 7 categories)
+   - If unable to infer, leave blank and continue; fill in upon completion
+   - If filled in, update `issue_open.md` immediately
+4. Check any project-specific reference materials and present to the user as needed.
 
 ### Phase 3: Issue Handling (AI)
 
@@ -113,14 +142,16 @@ For each issue item:
 2. **Check delegation boundary**: determine if within scope of ai_trust_policy.md
    - If out of scope → return to `needs_clarification`
 3. **Prioritize specificity**: favor analysis grounded in the applicant's concrete context over generic analysis
-4. **Change impact analysis**: if changes propagate to existing files, list the impact scope before executing
+4. **Change impact analysis (R12)**: if changes propagate to existing files, list the impact scope before executing. Record the pre-execution file list in the `### Response` section
 5. **Perform response**: code fixes, verification, document updates, etc.
-6. **Record results**: append response to the relevant item in issue_open.md
+6. **Record results**: append response as a `### Response` section to the relevant item in issue_open.md. Include the post-execution file list and a summary of actions taken
 7. **Verify**: run tests, confirm LaTeX compilation, etc.
 
 ### Phase 4: Completion Process
 
 1. Update completion criteria checkboxes to `[x]` and add `### Response` section per item
+   - **Important**: Complete this step **before** running `close_issue.sh`. The script assumes checkboxes and `### Response` sections already exist
+   - The `--skip-taio-check` flag skips response section validation; do not use it as a rule. If you must use it, record the reason in the `### Response` section or commit message
 2. Copy the completed file to `docs/issues/done/issue_YYMMDD_NN.md`
 3. Reset `issue_open.md` by copying `template_issue_open.md` (replace `{NN}` with the next number)
 4. Add a record to `docs/issues/issue_history.md`
@@ -129,6 +160,8 @@ For each issue item:
 
 > **Multiple themes**: Complete Phase 4 for each theme before proceeding to the next.
 > On error, leave completed themes as-is and do not enter the next theme.
+
+> **Sub-issues (I30-1, I30-2, etc.)**: Sub-issues with the same issue number must be consolidated into **one archive file**. Do not create separate archives per sub-issue. Archive all sub-issues together after all are complete.
 
 ## Core Execution Cycle
 

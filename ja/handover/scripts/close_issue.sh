@@ -221,6 +221,15 @@ if [ "$SKIP_TAIO_CHECK" = false ] && [ -f "$ISSUE_FILE" ]; then
   fi
 fi
 
+# 9. 完了条件チェックボックスの [x] 確認
+if [ -f "$ISSUE_FILE" ]; then
+  UNCHECKED=$(grep -c '\- \[ \]' "$ISSUE_FILE" 2>/dev/null || true)
+  if [ "$UNCHECKED" -gt 0 ]; then
+    error "Issue file has $UNCHECKED unchecked checkbox(es) ('- [ ]'): $ISSUE_FILE"
+    ERRORS=$((ERRORS + 1))
+  fi
+fi
+
 if [ "$ERRORS" -gt 0 ]; then
   error "Pre-checks failed ($ERRORS error(s)). Aborting."
   exit 1
