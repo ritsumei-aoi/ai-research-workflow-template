@@ -116,9 +116,9 @@ These samples include cases from:
 ## References
 
 - H. Aoi, *A collaborative workflow for human-AI research in pure mathematics*, Preprint, 2026.
-  \[[PDF](aoi2026_collaborative_workflow.pdf)\]
+  [PDF](./aoi2026_collaborative_workflow_latest.pdf)
 - H. Aoi, *On the triviality of inhomogeneous deformations of osp(1|2n)*, arXiv:2604.05252 [math.RT], 2026.
-  \[[arXiv](https://arxiv.org/abs/2604.05252)\] \[[PDF](https://github.com/ritsumei-aoi/osp-triviality/blob/main/aoi2026_triviality_osp1_2n.pdf)\]
+  [arXiv](https://arxiv.org/abs/2604.05252) [PDF](https://github.com/ritsumei-aoi/osp-triviality/blob/main/aoi2026_triviality_osp1_2n.pdf)
 - Case study repository: [osp-triviality](https://github.com/ritsumei-aoi/osp-triviality)
 
 ## License
