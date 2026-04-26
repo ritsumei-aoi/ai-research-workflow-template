@@ -1,41 +1,41 @@
 #!/usr/bin/env bash
-# submit-issue.sh — Phase 1 完了処理: issue_open.md を ai/workflow_issue ブランチへ送信
+# submit-issue.sh - Phase 1 completion: submits issue_open.md to ai/workflow_issue branch
 #
-# 概要:
-#   人間が docs/issues/issue_open.md を記述した後、AI エージェントが
-#   処理できる状態にするために ai/workflow_issue ブランチへ送信する。
-#   ai/workflow_issue を origin/main ベースにリセットした上で
-#   issue_open.md のみをコミットして push する（クリーンな提出）。
+# Overview:
+#   After a human writes docs/issues/issue_open.md, this script sends it to
+#   the ai/workflow_issue branch in a state that an AI agent can process.
+#   It resets ai/workflow_issue to origin/main's base, then commits and pushes
+#   only issue_open.md (a clean submission).
 #
-# 使い方:
+# Usage:
 #   ./handover/scripts/submit-issue.sh [OPTIONS]
 #
-# オプション:
-#   --dry-run    書き込み・git操作を行わず、計画のみ表示
-#   --help       ヘルプ表示
+# Options:
+#   --dry-run    Display the plan without writing or performing git operations
+#   --help       Show help
 #
-# 例:
-#   # 通常実行
+# Examples:
+#   # Standard run
 #   ./handover/scripts/submit-issue.sh
 #
-#   # dry-run で計画確認
+#   # Dry-run to preview
 #   ./handover/scripts/submit-issue.sh --dry-run
 #
-# 前提条件:
-#   - docs/issues/issue_open.md が記述済み（テンプレート状態でないこと）
-#   - origin（リモート）へのプッシュ権限があること
-#   - カレントディレクトリがリポジトリルート（任意のブランチで動作可）
+# Prerequisites:
+#   - docs/issues/issue_open.md must be filled in (not in template state)
+#   - You must have push access to origin
+#   - Current directory must be the repository root (works from any branch)
 #
-# 注意:
-#   - ai/workflow_issue ブランチは origin/main に強制リセットされる
-#   - issue_open.md 以外のブランチ固有の変更は失われる（バックアップ推奨）
-#   - AI が issue_open.md 以外のファイル（例: memo/*.md）も参照する場合は
-#     main にコミットしてから実行するか、AI セッション開始後に手動で追加すること
+# Notes:
+#   - The ai/workflow_issue branch will be hard-reset to origin/main
+#   - Any non-issue_open.md branch-specific changes will be lost (backup recommended)
+#   - If you want the AI agent to read files other than issue_open.md (e.g., memo/*.md),
+#     commit them to main first, or add them manually after the AI session starts
 
 set -euo pipefail
 
 # ========================================
-# ユーティリティ関数
+# Utility functions
 # ========================================
 
 if [ -t 1 ]; then
@@ -51,14 +51,14 @@ warn()  { echo -e "${YELLOW}[WARN]${NC}  $*"; }
 error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 
 # ========================================
-# 引数パース
+# Argument parsing
 # ========================================
 
 DRY_RUN=false
 
 show_help() {
-  # ファイルの先頭コメント（# で始まる行）を表示（# プレフィックスを除去）
-  sed -n '/^#!/d; 2,/^[^#]/{ /^[^#]/d; s/^# //; s/^#$//; p; }' "$0"
+  # Display leading comments (lines starting with #)
+  sed -n '2,/^[^#]/{ /^[^#]/d; s/^# //; s/^#$//; p; }' "$0"
   exit 0
 }
 
@@ -71,7 +71,7 @@ while [ $# -gt 0 ]; do
 done
 
 # ========================================
-# パス設定
+# Path setup
 # ========================================
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -87,38 +87,38 @@ REMOTE="origin"
 # ========================================
 
 echo ""
-info "=== Pre-checks ==="
+info "== Pre-checks =="
 
 ERRORS=0
 
-# 1. issue_open.md の存在確認
+# 1. Check issue_open.md exists
 if [ ! -f "$ISSUE_FILE" ]; then
   error "Issue file not found: $ISSUE_FILE"
   ERRORS=$((ERRORS + 1))
 fi
 
-# 2. テンプレート状態の確認（未記入のプレースホルダが残っている場合）
+# 2. Check for template state (unfilled placeholders remain)
 if [ -f "$ISSUE_FILE" ]; then
-  if grep -qF '{タイトル}' "$ISSUE_FILE" || grep -qF '{NN}' "$ISSUE_FILE" \
-     || grep -qF '{条件1}' "$ISSUE_FILE"; then
+  if grep -qF '{TITLE}' "$ISSUE_FILE" || grep -qF '{NN}' "$ISSUE_FILE" \
+     || grep -qF '{condition1}' "$ISSUE_FILE"; then
     error "Issue file appears to be in template state (contains unfilled placeholders): $ISSUE_FILE"
     ERRORS=$((ERRORS + 1))
   fi
 fi
 
-# 3. ファイルが空でないことの確認
+# 3. Check file is not empty
 if [ -f "$ISSUE_FILE" ] && [ ! -s "$ISSUE_FILE" ]; then
   error "Issue file is empty: $ISSUE_FILE"
   ERRORS=$((ERRORS + 1))
 fi
 
-# 4. git コマンドの存在確認
+# 4. Check git command exists
 if ! command -v git &>/dev/null; then
   error "git command not found"
   ERRORS=$((ERRORS + 1))
 fi
 
-# 5. origin リモートの存在確認
+# 5. Check origin remote exists
 if ! git remote get-url "$REMOTE" &>/dev/null; then
   error "Remote '$REMOTE' not found"
   ERRORS=$((ERRORS + 1))
@@ -129,13 +129,13 @@ if [ "$ERRORS" -gt 0 ]; then
   exit 1
 fi
 
-# イシュー番号を検出（コミットメッセージ用）
+# Detect issue number (for commit message)
 ISSUE_NUM=$(grep -oE 'I[0-9]+-[0-9]+' "$ISSUE_FILE" | head -1 || true)
 if [ -z "$ISSUE_NUM" ]; then
   ISSUE_NUM="issue"
 fi
 
-# ai/workflow_issue に main 以外のコミットがある場合は警告
+# Warn if ai/workflow_issue has extra commits beyond issue_open.md
 EXTRA_FILES=""
 if git show-ref --verify --quiet "refs/remotes/$REMOTE/main" \
    && git show-ref --verify --quiet "refs/remotes/$REMOTE/$TARGET_BRANCH"; then
@@ -151,12 +151,12 @@ fi
 ok "All pre-checks passed"
 
 # ========================================
-# 実行計画の表示
+# Display execution plan
 # ========================================
 
 CURRENT_BRANCH="$(git branch --show-current)"
 echo ""
-info "=== Execution plan ==="
+info "== Execution plan =="
 echo "  Current branch:  $CURRENT_BRANCH"
 echo "  Target branch:   $TARGET_BRANCH (will reset to $REMOTE/main)"
 echo "  Issue file:      $ISSUE_FILE"
@@ -165,7 +165,7 @@ echo "  Dry-run:         $DRY_RUN"
 echo ""
 
 # ========================================
-# Step 1: issue_open.md のバックアップ（/tmp に一時退避）
+# Step 1: Back up issue_open.md (temp file)
 # ========================================
 
 info "Step 1: Backing up $ISSUE_FILE"
@@ -173,14 +173,14 @@ TMP_BACKUP=$(mktemp /tmp/submit_issue.XXXXXX)
 trap 'rm -f "$TMP_BACKUP"' EXIT
 
 if [ "$DRY_RUN" = true ]; then
-  info "(dry-run) cp $ISSUE_FILE → $TMP_BACKUP"
+  info "(dry-run) cp $ISSUE_FILE -> $TMP_BACKUP"
 else
   cp "$ISSUE_FILE" "$TMP_BACKUP"
 fi
 ok "Step 1 done"
 
 # ========================================
-# Step 2: ai/workflow_issue ブランチへ切り替え
+# Step 2: Switch to ai/workflow_issue branch
 # ========================================
 
 info "Step 2: Switching to $TARGET_BRANCH"
@@ -196,7 +196,7 @@ fi
 ok "Step 2 done"
 
 # ========================================
-# Step 3: origin/main にリセット（クリーンな状態を確保）
+# Step 3: Reset to origin/main (ensure clean state)
 # ========================================
 
 info "Step 3: Resetting $TARGET_BRANCH to $REMOTE/main"
@@ -210,12 +210,12 @@ fi
 ok "Step 3 done"
 
 # ========================================
-# Step 4: issue_open.md を復元
+# Step 4: Restore issue_open.md from backup
 # ========================================
 
 info "Step 4: Restoring $ISSUE_FILE from backup"
 if [ "$DRY_RUN" = true ]; then
-  info "(dry-run) cp $TMP_BACKUP → $ISSUE_FILE"
+  info "(dry-run) cp $TMP_BACKUP -> $ISSUE_FILE"
 else
   mkdir -p "$(dirname "$ISSUE_FILE")"
   cp "$TMP_BACKUP" "$ISSUE_FILE"
@@ -223,7 +223,7 @@ fi
 ok "Step 4 done"
 
 # ========================================
-# Step 5: コミットとプッシュ
+# Step 5: Commit and push
 # ========================================
 
 info "Step 5: Committing and pushing"
@@ -243,17 +243,17 @@ fi
 ok "Step 5 done"
 
 # ========================================
-# 完了サマリー
+# Completion summary
 # ========================================
 
 echo ""
-echo "==========================================="
+echo "==============="
 if [ "$DRY_RUN" = true ]; then
-  warn "DRY-RUN complete — no changes were made"
+  warn "DRY-RUN complete - no changes were made"
 else
   ok "Submit complete"
 fi
 echo "  Issue:   $ISSUE_NUM"
 echo "  Branch:  $TARGET_BRANCH (pushed to $REMOTE)"
 echo "  Next:    Start AI session and tell it to handle the issue"
-echo "==========================================="
+echo "==="
