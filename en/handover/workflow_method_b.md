@@ -59,6 +59,26 @@ Activated by **"perform verification only"** or equivalent instruction.
 
 ### Phase 1: Issue Creation (Human)
 
+
+#### Phase 1 Note: Submitting issue_open.md via submit-issue.sh
+
+After writing `issue_open.md`, you can run `handover/scripts/submit-issue.sh` to
+reset the `ai/workflow_issue` branch to `origin/main` base and commit/push only `issue_open.md`.
+
+```bash
+./handover/scripts/submit-issue.sh          # Standard run
+./handover/scripts/submit-issue.sh --dry-run  # Dry-run to preview
+```
+
+**When this is useful:**
+- Cloud agents that need to commit to a branch
+- When `ai/workflow_issue` is dirty from previous work
+
+**For local Copilot CLI:** AI can read `issue_open.md` directly without committing it.
+Script execution is optional but recommended to ensure a clean state.
+
+> **Note**: If `memo/` files need to be read by AI, ensure they are committed to `main`.
+> Otherwise commit them manually after the AI session starts.
 The human writes issue items in `docs/issues/issue_open.md`.
 Copy `template_issue_open.md` and replace `{NN}` with the next issue number.
 The browser form (`docs/tools/issue_form.html`) can be used to prevent missing fields (R10).

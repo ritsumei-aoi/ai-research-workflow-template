@@ -53,13 +53,19 @@ Template definition for `handover_memo_latest.md` and `handover_memo_archived.md
 
 ## Update Procedure
 
-1. At session start, run `scripts/extract_latest_session.sh`
-   - The `## Implementation Status` section of `handover_memo_latest.md` is
-     appended to `handover_memo_archived.md`
-2. Update `handover_memo_latest.md` during the session
-3. Final update at session end
+1. Update `handover_memo_latest.md` during the session (append Implementation Status section)
+2. At session end, do **one** of the following:
+   - **Recommended manual**: Copy the Implementation Status section to `handover_memo_archived.md`, then write new content to `handover_memo_latest.md`
+   - **Script**: Run `./handover/scripts/extract_latest_session.sh` (only works if Implementation Status section exists in `handover_memo_latest.md`)
+
+> **Note**: The `extract_latest_session.sh` script extracts content under the `## Implementation Status` heading.
+> If that section is missing, the script exits with an error.
 
 ## handover_memo_archived.md
 
 Session records moved from `handover_memo_latest.md` are appended in chronological order.
+The most recent session is appended at the top.
+
+> **Important**: This file was initialized with I02-I07 summaries during I08 (since it was empty).
+> Next sessions should use normal operation via `extract_latest_session.sh` for automatic appends.
 The most recent session is appended at the top.
