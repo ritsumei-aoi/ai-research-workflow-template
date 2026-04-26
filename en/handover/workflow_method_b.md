@@ -169,13 +169,12 @@ For each issue item:
 
 ### Phase 4: Completion Process
 
-> **Important**: To prevent the issue discovered in I09 (issue_history.md entries being omitted during completion processing), strictly follow the checklist below.
+> **Important**: To prevent issue_history.md entries being omitted during completion processing, strictly follow the checklist below.
 
 1. Update completion criteria checkboxes to `[x]` and add `### Response` section per item
    - **Important**: Complete this step **before** running `close_issue.sh`. The script assumes checkboxes and `### Response` sections already exist
    - The `--skip-taio-check` flag skips response section validation; do not use it as a rule. If you must use it, record the reason in the `### Response` section or commit message
 2. **Add entries to `issue_history.md` (Required)**: Append entries for each sub-issue to `docs/issues/issue_history.md`
-   - **Omitted in I09**: The issue_history.md update was forgotten after I08 completion. To prevent this, execute this step first in Phase 4
    - Follow the format of existing records (do not update the `## Statistics` section at the end)
 3. Copy the completed file to `docs/issues/done/issue_YYMMDD_NN.md` (`close_issue.sh` handles this automatically; `--dry-run` recommended for pre-check)
 4. Reset `issue_open.md` by copying `template_issue_open.md` (replace `{NN}` with the next number)

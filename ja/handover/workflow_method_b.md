@@ -172,13 +172,12 @@ Category: [verification | research | proposal | implementation | paper | docs | 
 
 ### Phase 4: 完了処理
 
-> **重要**: I09 で確認された問題（issue_history.md へのエントリ追記が完了処理の間に欠落する）を防止するため、以下のチェックリストを**厳密に遵守**すること。
+> **重要**: issue_history.md へのエントリ追記が完了処理の間に欠落することを防止するため、以下のチェックリストを**厳密に遵守**すること。
 
 1. `issue_open.md` の完了条件チェックボックスを `[x]` に更新し、各項目に `### 対応` セクションを追記
    - **重要**: この手順は `close_issue.sh` を実行する**前に**完了させること。スクリプトはチェックボックスと `### 対応` セクションが既に存在することを前提とする
    - `--skip-taio-check` フラグは対応セクションの検証をスキップするが、原則として使用禁止。やむを得ず使用する場合はその理由を `### 対応` セクションまたはコミットメッセージに記録すること
 2. **`issue_history.md` へのエントリ追記（必須）**: 各サブイシューのエントリを `docs/issues/issue_history.md` に追記
-   - **I09 で欠落していた**: I08 完了後に issue_history.md の更新を忘れていた。これを防止するため、Phase 4 の最初に実行する
    - フォーマットは既存の記録を参照（末尾の `## 統計` を更新しないこと）
 3. 回答済みファイルを `docs/issues/done/issue_YYMMDD_NN.md` にコピー（`close_issue.sh` が自動実行。`--dry-run` で事前確認推奨）
 4. `issue_open.md` を `template_issue_open.md` の内容でリセット（`{NN}` を次の番号に置換）
