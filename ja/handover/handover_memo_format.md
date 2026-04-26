@@ -69,7 +69,3 @@
 > このセクションは `extract_latest_session.sh` による自動追記の代替として手動で初期化した。
 > 次セッション以降は正常な運用を期待（`extract_latest_session.sh` で追記される）。
 
-## handover_memo_archived.md
-
-`handover_memo_latest.md` から移動されたセッション記録が時系列で追記される。
-最新のセッションが上に来るように追記する。

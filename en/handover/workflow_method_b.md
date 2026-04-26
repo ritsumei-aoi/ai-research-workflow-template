@@ -169,19 +169,34 @@ For each issue item:
 
 ### Phase 4: Completion Process
 
+> **Important**: To prevent the issue discovered in I09 (issue_history.md entries being omitted during completion processing), strictly follow the checklist below.
+
 1. Update completion criteria checkboxes to `[x]` and add `### Response` section per item
    - **Important**: Complete this step **before** running `close_issue.sh`. The script assumes checkboxes and `### Response` sections already exist
    - The `--skip-taio-check` flag skips response section validation; do not use it as a rule. If you must use it, record the reason in the `### Response` section or commit message
-2. Copy the completed file to `docs/issues/done/issue_YYMMDD_NN.md`
-3. Reset `issue_open.md` by copying `template_issue_open.md` (replace `{NN}` with the next number)
-4. Add a record to `docs/issues/issue_history.md`
-5. Update `handover/handover_memo_latest.md`
+2. **Add entries to `issue_history.md` (Required)**: Append entries for each sub-issue to `docs/issues/issue_history.md`
+   - **Omitted in I09**: The issue_history.md update was forgotten after I08 completion. To prevent this, execute this step first in Phase 4
+   - Follow the format of existing records (do not update the `## Statistics` section at the end)
+3. Copy the completed file to `docs/issues/done/issue_YYMMDD_NN.md` (`close_issue.sh` handles this automatically; `--dry-run` recommended for pre-check)
+4. Reset `issue_open.md` by copying `template_issue_open.md` (replace `{NN}` with the next number)
+5. Update `handover/handover_memo_latest.md` (manually or via script; see `handover_memo_format.md`)
 6. Git completion (see "Branch Operations" below)
+
+> **Phase 4 Checklist (AI Mandatory Check)**:
+> - [ ] `### Response` section added
+> - [ ] `issue_history.md` entry added ← **This was omitted in I09**
+> - [ ] Archive file created (under `docs/issues/done/`)
+> - [ ] `issue_open.md` template reset
+> - [ ] `handover_memo_latest.md` updated
+> 
+> If any item above is incomplete, **do not reset** `issue_open.md` to template state.
 
 > **Multiple themes**: Complete Phase 4 for each theme before proceeding to the next.
 > On error, leave completed themes as-is and do not enter the next theme.
-
-> **Sub-issues (I30-1, I30-2, etc.)**: Sub-issues with the same issue number must be consolidated into **one archive file**. Do not create separate archives per sub-issue. Archive all sub-issues together after all are complete.
+> 
+> **On `close_issue.sh`**: This is the Phase 4 automation script, but the following operations must be done **manually**:
+> - Entry addition to `issue_history.md` (difficult to automate due to project-specific format)
+> - Update of `handover_memo_latest.md` (see `handover_memo_format.md`)
 
 ## Core Execution Cycle
 

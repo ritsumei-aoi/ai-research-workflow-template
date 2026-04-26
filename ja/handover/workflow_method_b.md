@@ -172,19 +172,34 @@ Category: [verification | research | proposal | implementation | paper | docs | 
 
 ### Phase 4: 完了処理
 
+> **重要**: I09 で確認された問題（issue_history.md へのエントリ追記が完了処理の間に欠落する）を防止するため、以下のチェックリストを**厳密に遵守**すること。
+
 1. `issue_open.md` の完了条件チェックボックスを `[x]` に更新し、各項目に `### 対応` セクションを追記
    - **重要**: この手順は `close_issue.sh` を実行する**前に**完了させること。スクリプトはチェックボックスと `### 対応` セクションが既に存在することを前提とする
    - `--skip-taio-check` フラグは対応セクションの検証をスキップするが、原則として使用禁止。やむを得ず使用する場合はその理由を `### 対応` セクションまたはコミットメッセージに記録すること
-2. 回答済みファイルを `docs/issues/done/issue_YYMMDD_NN.md` にコピー
-3. `issue_open.md` を `template_issue_open.md` の内容でリセット（`{NN}` を次の番号に置換）
-4. `docs/issues/issue_history.md` に記録を追加
-5. `handover_memo_latest.md` を更新
+2. **`issue_history.md` へのエントリ追記（必須）**: 各サブイシューのエントリを `docs/issues/issue_history.md` に追記
+   - **I09 で欠落していた**: I08 完了後に issue_history.md の更新を忘れていた。これを防止するため、Phase 4 の最初に実行する
+   - フォーマットは既存の記録を参照（末尾の `## 統計` を更新しないこと）
+3. 回答済みファイルを `docs/issues/done/issue_YYMMDD_NN.md` にコピー（`close_issue.sh` が自動実行。`--dry-run` で事前確認推奨）
+4. `issue_open.md` を `template_issue_open.md` の内容でリセット（`{NN}` を次の番号に置換）
+5. `handover_memo_latest.md` を更新（手動またはスクリプトで、`handover_memo_format.md` 参照）
 6. Git 完了処理（下記「ブランチ運用」参照）
+
+> **Phase 4 チェックリスト（AI 必須確認）**:
+> - [ ] `### 対応` セクション追記済み
+> - [ ] `issue_history.md` エントリ追加済み ← **I09 で欠落していた項目**
+> - [ ] archive ファイル作成済み（`docs/issues/done/` 配下）
+> - [ ] `issue_open.md` テンプレートリセット済み
+> - [ ] `handover_memo_latest.md` 更新済み
+> 
+> 上記のいずれかが欠落している場合、issue_open.md のテンプレートリセットは**行わない**。
 
 > **複数テーマの場合**: 各テーマごとに Phase 4 を完了させてから次のテーマに進む。
 > エラー発生時は完了済みテーマはそのまま、次のテーマには入らず終了する。
-
-> **サブイシュー（I30-1, I30-2 等）**: 同一イシュー番号のサブイシューは**1つのアーカイブファイル**にまとめる。サブイシューごとに分割アーカイブしてはならない。全サブイシューの対応完了後に一括でアーカイブすること。
+> 
+> **close_issue.sh への要求**: `close_issue.sh` は Phase 4 の自動実行スクリプトであるが、以下の操作は**手動で実施すること**:
+> - `issue_history.md` のエントリ追記（プロジェクト固有のため自動化困難）
+> - `handover_memo_latest.md` の更新（`handover_memo_format.md` 参照）
 
 ## Core Execution Cycle
 
