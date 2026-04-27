@@ -81,14 +81,14 @@ Script execution is optional but recommended to ensure a clean state.
 > Otherwise commit them manually after the AI session starts.
 The human writes issue items in `docs/issues/issue_open.md`.
 Copy `template_issue_open.md` and replace `{NN}` with the next issue number.
-The browser form (`docs/tools/issue_form.html`) can be used to prevent missing fields (R10).
+The browser form (`docs/tools/issue_form.html`) can be used to prevent missing fields.
 
 **Numbering scheme**: `I{NN}-{n}` (NN: 2-digit serial number, n: sub-issue number)
 
 **Multiple themes**: Separate different themes with `---` (horizontal rule) and increment the issue number.
 The AI processes each theme sequentially, completing Phase 4 for each before moving to the next.
 
-#### Phase 1 Supplement: Prompt Guidelines (R18-2)
+#### Phase 1 Supplement: Prompt Guidelines
 
 Guidelines for the prompt (chat input) sent to the AI agent after placing `issue_open.md`.
 
@@ -147,7 +147,7 @@ Category: [verification | research | proposal | implementation | paper | docs | 
    - If non-placeholder items exist, begin handling them
    - If in template state, idle (follow handover instructions)
    - If **multiple themes** (`---` separator) exist, confirm theme count
-3. **Metadata auto-fill (R10)**: If `Created:` or `Category:` headers are blank:
+3. **Metadata auto-fill**: If `Created:` or `Category:` headers are blank:
    - `Created:` → fill in the current date (record in `### Response` that it is an estimated value)
    - `Category:` → infer from issue content and fill in (select from 7 categories)
    - If unable to infer, leave blank and continue; fill in upon completion
@@ -162,7 +162,7 @@ For each issue item:
 2. **Check delegation boundary**: determine if within scope of ai_trust_policy.md
    - If out of scope → return to `needs_clarification`
 3. **Prioritize specificity**: favor analysis grounded in the applicant's concrete context over generic analysis
-4. **Change impact analysis (R12)**: if changes propagate to existing files, list the impact scope before executing. Record the pre-execution file list in the `### Response` section
+4. **Change impact analysis**: if changes propagate to existing files, list the impact scope before executing. Record the pre-execution file list in the `### Response` section
 5. **Perform response**: code fixes, verification, document updates, etc.
 6. **Record results**: append response as a `### Response` section to the relevant item in issue_open.md. Include the post-execution file list and a summary of actions taken
 7. **Verify**: run tests, confirm LaTeX compilation, etc.
