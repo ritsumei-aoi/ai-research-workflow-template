@@ -169,34 +169,94 @@ For each issue item:
 
 ### Phase 4: Completion Process
 
-> **Important**: To prevent the issue discovered in I09 (issue_history.md entries being omitted during completion processing), strictly follow the checklist below.
+> **Important**: To prevent issues where `issue_history.md` entries and main squash-merge are missed during completion processing, strictly follow the checklist below.
+
+#### Standard Procedure: Execute `close_issue.sh` (Required)
+
+Phase 4 completion is performed by **executing `close_issue.sh`**. Follow the dry-run → confirm → execute flow:
+
+```bash
+# 1. Dry-run to preview plan
+./handover/scripts/close_issue.sh --dry-run <YYMMDD> <NN> "<label>" <nextNN>
+
+# 2. If plan looks correct, execute
+./handover/scripts/close_issue.sh <YYMMDD> <NN> "<label>" <nextNN>
+```
+
+Operations performed by `close_issue.sh`:
+- Archive issue content to `docs/issues/done/`
+- Reset `issue_open.md` to template state
+- Stage + commit if `issue_history.md` has changes
+- Push to `ai/workflow_issue` → squash merge to main → branch sync
+
+#### Pre-execution Preparation (Manual, Required)
+
+Before running `close_issue.sh`, the following preparations must be completed. The script validates these prerequisites.
 
 1. Update completion criteria checkboxes to `[x]` and add `### Response` section per item
-   - **Important**: Complete this step **before** running `close_issue.sh`. The script assumes checkboxes and `### Response` sections already exist
-   - The `--skip-taio-check` flag skips response section validation; do not use it as a rule. If you must use it, record the reason in the `### Response` section or commit message
 2. **Add entries to `issue_history.md` (Required)**: Append entries for each sub-issue to `docs/issues/issue_history.md`
-   - **Omitted in I09**: The issue_history.md update was forgotten after I08 completion. To prevent this, execute this step first in Phase 4
-   - Follow the format of existing records (do not update the `## Statistics` section at the end)
-3. Copy the completed file to `docs/issues/done/issue_YYMMDD_NN.md` (`close_issue.sh` handles this automatically; `--dry-run` recommended for pre-check)
-4. Reset `issue_open.md` by copying `template_issue_open.md` (replace `{NN}` with the next number)
-5. Update `handover/handover_memo_latest.md` (manually or via script; see `handover_memo_format.md`)
-6. Git completion (see "Branch Operations" below)
+     - Past incidents showed that missing `issue_history.md` updates caused problems. To prevent this, execute this step first in Phase 4
+     - Follow the format of existing records (do not update the `## Statistics` section at the end)
+3. Update `handover/handover_memo_latest.md` (manually or via script; see `handover_memo_format.md`)
+
+#### Fallback if `close_issue.sh` Fails
+
+If `close_issue.sh` execution fails:
+
+1. Check error messages and identify the failing pre-check
+2. Fix the issue and retry (if you must use `--skip-taio-check`, record your reasoning)
+3. If it still fails, perform the following manually:
+
+```bash
+# Step 1: Archive
+cp <issue_file> docs/issues/done/issue_YYMMDD_NN.md
+
+# Step 2: Reset issue_open.md
+sed 's/{NN}/<nextNN>/g' docs/issues/template_issue_open.md > docs/issues/issue_open.md
+
+# Step 3: Staging
+git add docs/issues/done/issue_YYMMDD_NN.md docs/issues/issue_open.md
+[If issue_history.md changed, stage it too]
+[If handover_memo_latest.md changed, stage it too]
+[If close_issue.sh itself changed, stage it too]
+
+# Step 4: Commit
+git commit -m "<label>"
+
+# Step 5: Push
+git push origin ai/workflow_issue
+
+# Step 6: Squash merge to main
+git checkout main
+git pull origin main
+git merge --squash ai/workflow_issue --no-edit
+git commit -m "<label> (squash)"
+git push origin main
+
+# Step 7: Branch sync
+git checkout ai/workflow_issue
+git reset --hard main
+git push --force-with-lease origin ai/workflow_issue
+```
+
+#### Post-execution Confirmation (Required)
+
+After running `close_issue.sh`, verify the following:
+
+1. Confirm squash merge commit exists on main with `git log -1 --oneline main`
+2. Confirm `ai/workflow_issue` is synced with main via `git branch -v`
+3. Confirm `docs/issues/issue_open.md` is in template state
 
 > **Phase 4 Checklist (AI Mandatory Check)**:
 > - [ ] `### Response` section added
-> - [ ] `issue_history.md` entry added ← **This was omitted in I09**
-> - [ ] Archive file created (under `docs/issues/done/`)
-> - [ ] `issue_open.md` template reset
-> - [ ] `handover_memo_latest.md` updated
+> - [ ] `issue_history.md` entry added ← **Execute first in completion process**
+> - [ ] `close_issue.sh` executed (archive + merge/push) ← **Required to prevent squash-merge omissions**
+> - [ ] `issue_open.md` confirmed in template state ← **Verify after close_issue.sh execution**
+> - [ ] `handover_memo_latest.md` updated ← **Complete before close_issue.sh execution**
+> - [ ] **main and ai/workflow_issue are synced** ← **Added to prevent squash-merge omissions**
+> - [ ] **Squash merge commit exists on main** ← **Added to prevent squash-merge omissions**
 > 
 > If any item above is incomplete, **do not reset** `issue_open.md` to template state.
-
-> **Multiple themes**: Complete Phase 4 for each theme before proceeding to the next.
-> On error, leave completed themes as-is and do not enter the next theme.
-> 
-> **On `close_issue.sh`**: This is the Phase 4 automation script, but the following operations must be done **manually**:
-> - Entry addition to `issue_history.md` (difficult to automate due to project-specific format)
-> - Update of `handover_memo_latest.md` (see `handover_memo_format.md`)
 
 ## Core Execution Cycle
 
