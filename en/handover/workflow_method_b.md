@@ -95,6 +95,8 @@ Guidelines for the prompt (chat input) sent to the AI agent after placing `issue
 **Principle**: The prompt **complements** `issue_open.md` and does not **duplicate** its content.
 `issue_open.md` is the formal specification; the prompt is the accompanying verbal instruction.
 
+**Recommended LLM Model Selection**: When creating `issue_open.md`, please delete the unselected model options (lines with `[ ]` remaining). This is to prevent errors caused by `close_issue.sh`'s automatic check for incomplete checkboxes.
+
 **Content to include in prompts** (things difficult to write in issue_open.md):
 
 | Category | Example | Effect |
@@ -194,6 +196,7 @@ Operations performed by `close_issue.sh`:
 Before running `close_issue.sh`, the following preparations must be completed. The script validates these prerequisites.
 
 1. Update completion criteria checkboxes to `[x]` and add `### Response` section per item
+     - **Recording the model used**: At the beginning of the `### Response` section, please state the actual model name used (e.g., `Gemini 3.1 Pro (Auto)`).
 2. **Add entries to `issue_history.md` (Required)**: Append entries for each sub-issue to `docs/issues/issue_history.md`
      - Past incidents showed that missing `issue_history.md` updates caused problems. To prevent this, execute this step first in Phase 4
      - Follow the format of existing records (do not update the `## Statistics` section at the end)
@@ -248,7 +251,7 @@ After running `close_issue.sh`, verify the following:
 3. Confirm `docs/issues/issue_open.md` is in template state
 
 > **Phase 4 Checklist (AI Mandatory Check)**:
-> - [ ] `### Response` section added
+> - [ ] `### Response` section added (including model name used)
 > - [ ] `issue_history.md` entry added ← **Execute first in completion process**
 > - [ ] `close_issue.sh` executed (archive + merge/push) ← **Required to prevent squash-merge omissions**
 > - [ ] `issue_open.md` confirmed in template state ← **Verify after close_issue.sh execution**

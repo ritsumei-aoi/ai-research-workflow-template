@@ -37,6 +37,13 @@ Category: [category]   # Category (may be left blank; AI assigns based on conten
 
 ### Supplementary Information
 
+#### Recommended LLM Model
+- [ ] Highest (Deep Reasoning: e.g., Claude Opus, GPT-5.5)
+- [ ] High (Standard: e.g., Gemini 3.1 Pro, Claude Sonnet)
+- [ ] Medium (Fast: e.g., Gemini 3 Flash, GPT-4o mini)
+- [ ] Low (Cheap: e.g., Gemini 3.1 Flash-Lite)
+> **Note**: Please delete unselected options as they will trigger the completion script (`close_issue.sh`) check for incomplete checkboxes. See `docs/issues/ai_list_2026.md` for details.
+
 #### Deliverable Format
 {document / schema / code / decision / script}
 
@@ -81,6 +88,7 @@ The AI processes each theme sequentially, completing Phase 4 for each before mov
 
 ```markdown
 ### Response
+Model used: [Actual model name used (e.g., Gemini 3.1 Pro (Auto))]
 
 [Response content]
 ```
